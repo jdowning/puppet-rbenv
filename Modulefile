@@ -1,4 +1,4 @@
-name    'justindowning/rbenv'
+name    'jdowning/rbenv'
 version '0.0.1'
 source 'https://github.com/justindowning/puppet-rbenv'
 author 'Justin Donwing'
