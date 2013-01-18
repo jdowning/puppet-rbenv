@@ -1,16 +1,24 @@
-rbenv
+# rbenv
 
-This is the rbenv module.
+## Description
+This module is in early/first revisions and not complete or fully documented.
+Issues, pull requests, questions are welcome!
 
-License
--------
+## Usage
 
+### Install
 
-Contact
--------
+`class { 'rbenv': }`
 
+### Plugins
 
-Support
--------
+`rbenv::plugin { 'github_user/github_repo': }`
 
-Please log tickets and issues at our [Projects site](http://projects.example.com)
+### Ruby-Build
+
+Requires the ruby-build plugin from sstephenson. Additionally, you can set the
+ruby to be set as the global interpreter.
+```
+rbenv::plugin { 'sstephenson/ruby-build': }->
+rbenv::build { '1.9.3-p362': global => true }
+```

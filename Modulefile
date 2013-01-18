@@ -1,11 +1,11 @@
 name    'justindowning/rbenv'
 version '0.0.1'
-source 'UNKNOWN'
-author 'justindowning'
+source 'https://github.com/justindowning/puppet-rbenv'
+author 'Justin Donwing'
 license 'Apache License, Version 2.0'
-summary 'UNKNOWN'
-description 'UNKNOWN'
-project_page 'UNKNOWN'
+summary 'Install rbenv'
+description 'Setup rbenv for ruby management'
+project_page 'https://github.com/justindowning/puppet-rbenv'
 
 ## Add dependencies, if any:
-# dependency 'username/name', '>= 1.2.0'
+dependency 'puppetlabs/git', '>= 0.0.2'
