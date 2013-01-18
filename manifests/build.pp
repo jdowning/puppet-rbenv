@@ -8,9 +8,10 @@ define rbenv::build ($global=false) {
   }
 
   exec { "/tmp/ruby-build-${title}":
-    timeout     => 600,
-    unless      => "${rbenv::params::install_dir}/bin/rbenv versions | /bin/grep ${title}",
-    notify      => Exec['build-bootstrap'],
+    requires => Package['build-essential'],
+    timeout  => 600,
+    unless   => "${rbenv::params::install_dir}/bin/rbenv versions | /bin/grep ${title}",
+    notify   => Exec['build-bootstrap'],
   }
 
   exec { 'build-bootstrap':
