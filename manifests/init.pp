@@ -29,11 +29,11 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Justin Downing <justin@downing.us>
 #
 # === Copyright
 #
-# Copyright 2011 Your name here, unless otherwise noted.
+# Copyright 2013 Justin Downing
 #
 class rbenv {
 
@@ -41,11 +41,10 @@ class rbenv {
 
   include rbenv::params
 
-  exec { "git clone ${rbenv::params::repo_name}":
-    cwd       => $rbenv::params::install_prefix,
-    command   => "git clone \
+  exec { 'git-clone-rbenv':
+    command   => "/usr/bin/git clone \
                   ${rbenv::params::repo_path} \
-                  ${rbenv::params::repo_name}",
+                  ${rbenv::params::install_dir}",
     creates   => $rbenv::params::install_dir
   }
 
@@ -67,6 +66,6 @@ class rbenv {
     mode      => '0775'
   }
 
-  Exec["git clone ${rbenv::params::repo_name}"] -> File['/usr/local/rbenv']
+  Exec['git-clone-rbenv'] -> File['/usr/local/rbenv']
 
 }
