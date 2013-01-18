@@ -1,6 +1,7 @@
 ## DEFINE
 define rbenv::plugin {
-  include rbenv
+  require rbenv
+  include rbenv::params
 
   $plugin = split($title, '/')
 
