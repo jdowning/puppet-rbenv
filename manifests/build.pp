@@ -10,7 +10,7 @@ define rbenv::build ($global=false) {
   exec { "/tmp/ruby-build-${title}":
     require => [ Package['build-essential'], Rbenv::Plugin['sstephenson/ruby-build'] ],
     timeout => 1800,
-    unless  => "test -d /usr/local/rbenv/versions/${title}",
+    unless  => "/usr/bin/test -d /usr/local/rbenv/versions/${title}",
     notify  => Exec['build-bootstrap'],
   }
 
