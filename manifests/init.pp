@@ -45,6 +45,7 @@ class rbenv {
     owner     => 'root',
     group     => 'admin',
     mode      => '0775',
+    recurse   => true,
   }
 
   file { '/etc/profile.d/rbenv.sh':
