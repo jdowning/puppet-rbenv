@@ -11,5 +11,12 @@ define rbenv::plugin {
     path    => [ '/usr/bin' ],
     onlyif  => "test -d ${rbenv::params::install_dir}/plugins",
     unless  => "test -d ${rbenv::params::install_dir}/plugins/${plugin[1]}",
+  }~>
+  exec { "rbenv-permissions-${name}":
+    command     => "chown -R ${rbenv::params::owner}:${rbenv::params::group} ${rbenv::params::install_dir} && \
+                    chmod -R g+w ${rbenv::params::install_dir}",
+    path        => [ '/bin' ],
+    refreshonly => true,
   }
+
 }

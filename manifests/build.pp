@@ -11,10 +11,5 @@ define rbenv::build ($global=false) {
     require => [ Package['build-essential'], Rbenv::Plugin['sstephenson/ruby-build'] ],
     timeout => 1800,
     unless  => "/usr/bin/test -d /usr/local/rbenv/versions/${title}",
-  }->
-  exec { 'build-bootstrap':
-    command => 'gem install bundler --no-ri --no-rdoc',
-    path    => "${rbenv::params::install_dir}/versions/${title}/bin",
-    unless  => "/bin/ls ${rbenv::params::install_dir}/versions/${title}/bin/bundle 2>/dev/null",
   }
 }

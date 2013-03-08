@@ -23,16 +23,14 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv {
-
   require git
-
   include rbenv::params
 
   exec { 'git-clone-rbenv':
-    command   => "/usr/bin/git clone \
+    command => "/usr/bin/git clone \
                   ${rbenv::params::repo_path} \
                   ${rbenv::params::install_dir}",
-    creates   => $rbenv::params::install_dir
+    creates => $rbenv::params::install_dir,
   }
 
   file { [
@@ -41,11 +39,10 @@ class rbenv {
     "${rbenv::params::install_dir}/shims",
     "${rbenv::params::install_dir}/versions"
   ]:
-    ensure    => directory,
-    owner     => 'root',
-    group     => 'admin',
-    mode      => '0775',
-    recurse   => true,
+    ensure  => directory,
+    owner   => $rbenv::params::owner,
+    group   => $rbenv::params::group,
+    mode    => '0775',
   }
 
   file { '/etc/profile.d/rbenv.sh':
