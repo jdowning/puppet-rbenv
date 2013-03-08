@@ -1,11 +1,18 @@
-#!/usr/bin/env sh
-
-export RBENV_ROOT=/usr/local/rbenv
-export PATH="$RBENV_ROOT/bin:$PATH"
-eval "$(rbenv init -)"
-
+#!/usr/bin/env bash
+RBENV=<%= scope.lookupvar('rbenv::params::install_dir') %>
+OWNER=<%= scope.lookupvar('rbenv::params::owner') %>
+GROUP=<%= scope.lookupvar('rbenv::params::group') %> 
+pushd $RBENV/plugins/ruby-build
+  /usr/bin/git pull 
+popd
+source /etc/profile.d/rbenv.sh
 rbenv install <%= title %> 
-
+rbenv rehash
+rbenv shell <%= title %>
+gem install bundler
+rbenv rehash
+chown -R $OWNER:$GROUP $RBENV/versions/<%= title %>
+chmod -R g+w $RBENV/versions/<%= title %>
 <% if global == true %>
-  rbenv global <%= title %>
+rbenv global <%= title %>
 <% end %>
