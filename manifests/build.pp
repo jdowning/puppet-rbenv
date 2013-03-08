@@ -15,6 +15,6 @@ define rbenv::build ($global=false) {
   exec { 'build-bootstrap':
     command => 'gem install bundler --no-ri --no-rdoc',
     path    => "${rbenv::params::install_dir}/versions/${title}/bin",
-    unless  => "ls ${rbenv::params::install_dir}/versions/${title}/bin/bundle 2>/dev/null",
+    unless  => "/bin/ls ${rbenv::params::install_dir}/versions/${title}/bin/bundle 2>/dev/null",
   }
 }
