@@ -4,6 +4,7 @@ RBENV=<%= scope.lookupvar('rbenv::params::install_dir') %>
 OWNER=<%= scope.lookupvar('rbenv::params::owner') %>
 GROUP=<%= scope.lookupvar('rbenv::params::group') %> 
 pushd $RBENV/plugins/ruby-build
+  /usr/bin/git reset --hard HEAD
   /usr/bin/git pull 
 popd
 source /etc/profile.d/rbenv.sh
