@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 RBENV=<%= scope.lookupvar('rbenv::params::install_dir') %>
 OWNER=<%= scope.lookupvar('rbenv::params::owner') %>
 GROUP=<%= scope.lookupvar('rbenv::params::group') %> 
