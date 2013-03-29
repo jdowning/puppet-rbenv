@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-set -e
 RBENV=<%= scope.lookupvar('rbenv::params::install_dir') %>
+PATH=$RBENV/bin:$PATH
 OWNER=<%= scope.lookupvar('rbenv::params::owner') %>
 GROUP=<%= scope.lookupvar('rbenv::params::group') %> 
+chown -R $OWNER:$GROUP $RBENV/plugins
 pushd $RBENV/plugins/ruby-build
   /usr/bin/git reset --hard HEAD
   /usr/bin/git pull 
 popd
-source /etc/profile.d/rbenv.sh
+if [[ ! `rbenv versions | grep <%= title %>` ]]; then
 rbenv install <%= title %> 
 rbenv rehash
 rbenv shell <%= title %>
@@ -18,3 +19,4 @@ chmod -R g+w $RBENV/versions/<%= title %>
 <% if global == true %>
 rbenv global <%= title %>
 <% end %>
+fi
