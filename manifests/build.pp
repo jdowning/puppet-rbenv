@@ -25,6 +25,10 @@
 #   Default: false
 #   This variable is optional.
 #
+# === Requires
+#
+# puppetlabs/git
+#
 # === Examples
 #
 # rbenv::build { '2.0.0-p195': global => true }
@@ -56,6 +60,7 @@ define rbenv::build (
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => Class['git'],
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
