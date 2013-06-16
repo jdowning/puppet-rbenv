@@ -48,3 +48,13 @@ site.pp
     class { 'rbenv': }->rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
     rbenv::build { '2.0.0-p195': global => true }
     rbenv::gem { 'thor': ruby_version   => '2.0.0-p195' }
+
+## Testing
+
+In order to successfully run `vagrant up`, this repository directory
+must be called `rbenv`, not `puppet-rbenv`.
+
+    $ git clone https://github.com/justindowning/puppet-rbenv rbenv
+    $ git submodule init && git submodule update
+    $ cd rbenv
+    $ vagrant up
