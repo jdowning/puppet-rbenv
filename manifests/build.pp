@@ -66,6 +66,7 @@ define rbenv::build (
     command     => "${install_dir}/bin/rbenv install ${title}",
     environment => ['CFLAGS=-O3 -march=native'],
     creates     => "${install_dir}/versions/${title}",
+    require     => Package['build-essential'],
   }~>
   exec { "bundler-install-${title}":
     command     => "${install_dir}/shims/gem install bundler",
