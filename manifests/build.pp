@@ -54,13 +54,14 @@ define rbenv::build (
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => Class['rbenv'],
   }->
   exec { "git-pull-rubybuild-${title}":
     command => '/usr/bin/git reset --hard HEAD && /usr/bin/git pull',
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
-    require => Class['git'],
+    require => [Class['git'], Rbenv::Plugin['sstephenson/ruby-build']],
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
