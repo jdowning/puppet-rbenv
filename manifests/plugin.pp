@@ -20,6 +20,10 @@
 #   Default: $rbenv::group
 #   This variable is required.
 #
+# === Requires
+#
+# puppetlabs/git
+#
 # === Examples
 #
 # rbenv::plugin { 'jamis/rbenv-gemset': }
@@ -42,6 +46,7 @@ define rbenv::plugin(
     cwd     => "${install_dir}/plugins",
     onlyif  => "test -d ${install_dir}/plugins",
     unless  => "test -d ${install_dir}/plugins/${plugin[1]}",
+    require => Class['git'],
   }~>
   exec { "rbenv-permissions-${name}":
     command     => "chown -R ${owner}:${group} ${install_dir} && \
