@@ -74,7 +74,7 @@ define rbenv::build (
     refreshonly => true,
   }~>
   exec { "rbenv-rehash-${title}":
-    command     => 'rbenv rehash',
+    command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }~>
   exec { "rbenv-ownit-${title}":
@@ -85,7 +85,7 @@ define rbenv::build (
 
   if $global == true {
     exec { "rbenv-global${title}":
-      command     => "rbenv global ${title}",
+      command     => "${install_dir}/bin/rbenv global ${title}",
       require     => Exec["rbenv-install-${title}"],
       subscribe   => Exec["rbenv-ownit-${title}"],
       refreshonly => true,
