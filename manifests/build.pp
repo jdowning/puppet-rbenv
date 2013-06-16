@@ -64,7 +64,7 @@ define rbenv::build (
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
-    environment => ['CFLAGS=-O3 -march=native'],
+    environment => ['CFLAGS=-O3 -march=native', "RBENV_ROOT=${install_dir}"],
     creates     => "${install_dir}/versions/${title}",
     require     => Package['build-essential'],
   }~>
@@ -86,6 +86,7 @@ define rbenv::build (
   if $global == true {
     exec { "rbenv-global${title}":
       command     => "${install_dir}/bin/rbenv global ${title}",
+      environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
       subscribe   => Exec["rbenv-ownit-${title}"],
       refreshonly => true,
