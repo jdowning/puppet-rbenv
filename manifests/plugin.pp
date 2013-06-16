@@ -44,6 +44,7 @@ define rbenv::plugin(
   exec { "install-${name}":
     command => "/usr/bin/git clone https://github.com/${plugin[0]}/${plugin[1]}",
     cwd     => "${install_dir}/plugins",
+    path    => [ '/usr/bin' ],
     onlyif  => "test -d ${install_dir}/plugins",
     unless  => "test -d ${install_dir}/plugins/${plugin[1]}",
     require => Class['git'],
