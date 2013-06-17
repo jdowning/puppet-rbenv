@@ -55,6 +55,6 @@ In order to successfully run `vagrant up`, this repository directory
 must be called `rbenv`, not `puppet-rbenv`.
 
     $ git clone https://github.com/justindowning/puppet-rbenv rbenv
-    $ git submodule init && git submodule update
     $ cd rbenv
+    $ git submodule init && git submodule update
     $ vagrant up
