@@ -20,6 +20,10 @@
 #   Default: $rbenv::group
 #   This variable is required.
 #
+# === Requires
+#
+# puppetlabs/git
+#
 # === Examples
 #
 # rbenv::plugin { 'jamis/rbenv-gemset': }
@@ -40,6 +44,7 @@ define rbenv::plugin(
   exec { "install-${name}":
     command => "/usr/bin/git clone https://github.com/${plugin[0]}/${plugin[1]}",
     cwd     => "${install_dir}/plugins",
+    path    => [ '/usr/bin' ],
     onlyif  => "test -d ${install_dir}/plugins",
     unless  => "test -d ${install_dir}/plugins/${plugin[1]}",
   }~>
