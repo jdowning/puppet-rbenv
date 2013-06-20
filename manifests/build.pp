@@ -25,6 +25,12 @@
 #   Default: false
 #   This variable is optional.
 #
+# [$cflags]
+#   This is used to set CFLAGS when compiling ruby. When set
+#   to 'none', the environment variable will not be set.
+#   Default: '-O3 -march=native'
+#   This variable is optional.
+#
 # === Requires
 #
 # puppetlabs/git
@@ -42,7 +48,13 @@ define rbenv::build (
   $owner       = $rbenv::owner,
   $group       = $rbenv::group,
   $global      = false,
+  $cflags      = '-O3 -march=native',
 ) {
+
+  $environment_for_build = $cflags ? {
+    'none'  => ["RBENV_ROOT=${install_dir}"],
+    default => ["CFLAGS=${cflags}", "RBENV_ROOT=${install_dir}"],
+  }
 
   Exec {
     cwd     => $install_dir,
@@ -65,7 +77,7 @@ define rbenv::build (
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
-    environment => ['CFLAGS=-O3 -march=native', "RBENV_ROOT=${install_dir}"],
+    environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
   exec { "bundler-install-${title}":
