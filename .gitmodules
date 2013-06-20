@@ -1,3 +1,0 @@
-[submodule "tests/modules/git"]
-	path = tests/modules/git
-	url = https://github.com/puppetlabs/puppetlabs-git.git

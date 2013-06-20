@@ -39,12 +39,11 @@ install for.
     rbenv::gem { 'thor': ruby_version => '2.0.0-p195' }
 
 ## Requirements
-You will need to install the [git module](https://github.com/puppetlabs/puppetlabs-git) from Puppetlabs.
+You will need to install the git package on the host system.
 
 ## Example
 site.pp
 
-    class { 'git': }
     class { 'rbenv': }->rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
     rbenv::build { '2.0.0-p195': global => true }
     rbenv::gem { 'thor': ruby_version   => '2.0.0-p195' }
