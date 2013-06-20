@@ -20,6 +20,10 @@
 #   Default: $rbenv::group
 #   This variable is required.
 #
+# === Requires
+#
+# You will need to install the git package on the host system.
+#
 # === Examples
 #
 # rbenv::plugin { 'jamis/rbenv-gemset': }
@@ -38,7 +42,8 @@ define rbenv::plugin(
   $plugin = split($name, '/') # divide plugin name into array
 
   exec { "install-${name}":
-    command => "/usr/bin/git clone https://github.com/${plugin[0]}/${plugin[1]}",
+    command => "git clone https://github.com/${plugin[0]}/${plugin[1]}",
+    path    => [ '/usr/bin' ],
     cwd     => "${install_dir}/plugins",
     onlyif  => "test -d ${install_dir}/plugins",
     unless  => "test -d ${install_dir}/plugins/${plugin[1]}",

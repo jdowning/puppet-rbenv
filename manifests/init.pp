@@ -25,7 +25,7 @@
 #
 # === Requires
 #
-# puppetlabs/git
+# You will need to install the git package on the host system.
 #
 # === Examples
 #
@@ -55,7 +55,6 @@ class rbenv(
                ${install_dir}",
     creates => $install_dir,
     user    => $owner,
-    require => Class['git'],
   }
 
   file { [
