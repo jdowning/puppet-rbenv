@@ -25,6 +25,10 @@
 #   Default: false
 #   This variable is optional.
 #
+# === Requires
+#
+# puppetlabs/git
+#
 # === Examples
 #
 # rbenv::build { '2.0.0-p195': global => true }
@@ -50,17 +54,20 @@ define rbenv::build (
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => Class['rbenv'],
   }->
   exec { "git-pull-rubybuild-${title}":
     command => '/usr/bin/git reset --hard HEAD && /usr/bin/git pull',
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => [Class['git'], Rbenv::Plugin['sstephenson/ruby-build']],
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
-    environment => ['CFLAGS=-O3 -march=native'],
+    environment => ['CFLAGS=-O3 -march=native', "RBENV_ROOT=${install_dir}"],
     creates     => "${install_dir}/versions/${title}",
+    require     => Package['build-essential'],
   }~>
   exec { "bundler-install-${title}":
     command     => "${install_dir}/shims/gem install bundler",
@@ -68,7 +75,7 @@ define rbenv::build (
     refreshonly => true,
   }~>
   exec { "rbenv-rehash-${title}":
-    command     => 'rbenv rehash',
+    command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }~>
   exec { "rbenv-ownit-${title}":
@@ -79,7 +86,8 @@ define rbenv::build (
 
   if $global == true {
     exec { "rbenv-global${title}":
-      command     => "rbenv global ${title}",
+      command     => "${install_dir}/bin/rbenv global ${title}",
+      environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
       subscribe   => Exec["rbenv-ownit-${title}"],
       refreshonly => true,
