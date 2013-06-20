@@ -55,5 +55,4 @@ must be called `rbenv`, not `puppet-rbenv`.
 
     $ git clone https://github.com/justindowning/puppet-rbenv rbenv
     $ cd rbenv
-    $ git submodule init && git submodule update
     $ vagrant up
