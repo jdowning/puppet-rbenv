@@ -25,6 +25,16 @@
 #   Default: false
 #   This variable is optional.
 #
+# [$cflags]
+#   This is used to set CFLAGS when compiling ruby. When set
+#   to 'none', the environment variable will not be set.
+#   Default: '-O3 -march=native'
+#   This variable is optional.
+#
+# === Requires
+#
+# puppetlabs/git
+#
 # === Examples
 #
 # rbenv::build { '2.0.0-p195': global => true }
@@ -38,7 +48,13 @@ define rbenv::build (
   $owner       = $rbenv::owner,
   $group       = $rbenv::group,
   $global      = false,
+  $cflags      = '-O3 -march=native',
 ) {
+
+  $environment_for_build = $cflags ? {
+    'none'  => ["RBENV_ROOT=${install_dir}"],
+    default => ["CFLAGS=${cflags}", "RBENV_ROOT=${install_dir}"],
+  }
 
   Exec {
     cwd     => $install_dir,
@@ -50,16 +66,18 @@ define rbenv::build (
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => Class['rbenv'],
   }->
   exec { "git-pull-rubybuild-${title}":
     command => '/usr/bin/git reset --hard HEAD && /usr/bin/git pull',
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
+    require => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
-    environment => ['CFLAGS=-O3 -march=native'],
+    environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
   exec { "bundler-install-${title}":
@@ -68,7 +86,7 @@ define rbenv::build (
     refreshonly => true,
   }~>
   exec { "rbenv-rehash-${title}":
-    command     => 'rbenv rehash',
+    command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }~>
   exec { "rbenv-ownit-${title}":
@@ -79,7 +97,8 @@ define rbenv::build (
 
   if $global == true {
     exec { "rbenv-global${title}":
-      command     => "rbenv global ${title}",
+      command     => "${install_dir}/bin/rbenv global ${title}",
+      environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
       subscribe   => Exec["rbenv-ownit-${title}"],
       refreshonly => true,
