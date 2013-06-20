@@ -47,7 +47,6 @@ define rbenv::plugin(
     path    => [ '/usr/bin' ],
     onlyif  => "test -d ${install_dir}/plugins",
     unless  => "test -d ${install_dir}/plugins/${plugin[1]}",
-    require => Class['git'],
   }~>
   exec { "rbenv-permissions-${name}":
     command     => "chown -R ${owner}:${group} ${install_dir} && \
