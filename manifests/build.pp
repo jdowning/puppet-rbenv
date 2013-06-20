@@ -61,13 +61,12 @@ define rbenv::build (
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "/usr/bin/test -d ${install_dir}/versions/${title}",
-    require => [Class['git'], Rbenv::Plugin['sstephenson/ruby-build']],
+    require => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
     command     => "${install_dir}/bin/rbenv install ${title}",
     environment => ['CFLAGS=-O3 -march=native', "RBENV_ROOT=${install_dir}"],
     creates     => "${install_dir}/versions/${title}",
-    require     => Package['build-essential'],
   }~>
   exec { "bundler-install-${title}":
     command     => "${install_dir}/shims/gem install bundler",
