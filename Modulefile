@@ -6,6 +6,3 @@ license 'Apache License, Version 2.0'
 summary 'Install rbenv on Ubuntu'
 description 'Setup rbenv for ruby management on Ubuntu'
 project_page 'https://github.com/justindowning/puppet-rbenv'
-
-## Add dependencies, if any:
-dependency 'puppetlabs/git', '>= 0.0.2'
