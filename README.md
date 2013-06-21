@@ -4,6 +4,10 @@
 This Puppet module will install and manage rbenv on Ubuntu. Additionally,
 you can install rbenv plugins and ruby gems.
 
+## Installation
+
+`puppet module install --modulepath /path/to/puppet/modules jdowning-rbenv`
+
 ## Usage
 To use this module, you must declare it in your manifest like so:
 
