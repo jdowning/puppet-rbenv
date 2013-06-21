@@ -30,7 +30,7 @@ define rbenv::gem(
   exec { "gem-install-${name}":
     command => "${install_dir}/versions/${ruby_version}/bin/gem install ${name}",
     require => Rbenv::Build[$ruby_version],
-    onlyif  => "test -d ${install_dir}/versions/${ruby_version}",
+    onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
     unless  => "${install_dir}/versions/${ruby_version}/bin/gem list | grep ${name}",
   }~>
   exec { "rbenv-rehash-${name}":

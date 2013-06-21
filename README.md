@@ -39,11 +39,12 @@ install for.
     rbenv::gem { 'thor': ruby_version => '2.0.0-p195' }
 
 ## Requirements
-You will need to install the git package on the host system.
+You will need to install the `git` package. If you plan on using `rbenv::build`, then you will also need the `build-essential` package.
 
 ## Example
 site.pp
 
+    package { 'build-essential': }
     class { 'rbenv': }->rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
     rbenv::build { '2.0.0-p195': global => true }
     rbenv::gem { 'thor': ruby_version   => '2.0.0-p195' }
