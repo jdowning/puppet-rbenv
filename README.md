@@ -29,6 +29,12 @@ Plugins can be installed from GitHub using the following definiton:
 
 ### Installing and using ruby-build
 
+Ruby requires additional packages to operate properly. On a Ubuntu 12.04 (or higher), you should ensure the following packages are installed:  
+
+    sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev \
+      curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 \
+      libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool
+
 To install rubies you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin 
 from @sstephenson. Once installed, you can install most any Ruby. Additionally,
 you can set the ruby to be the global interpreter.
