@@ -29,5 +29,5 @@ class rbenv::params {
   $repo_path   = 'git://github.com/sstephenson/rbenv.git'
   $install_dir = '/usr/local/rbenv'
   $owner       = 'root'
-  $group       = 'admin'
+  $group       = 'adm'
 }
