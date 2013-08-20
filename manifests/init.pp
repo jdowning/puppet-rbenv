@@ -5,22 +5,24 @@
 #
 # === Variables
 #
+# [$repo_path]
+#   This is the git repo used to install rbenv.
+#   Default: 'git://github.com/sstephenson/rbenv.git'
+#   This variable is required.
+#
 # [$install_dir]
-#   This is where rbenv will be installed to. If you do not
-#   specify this parameter, it will use the default in rbenv::params.
-#   Default: $rbenv::params::install_dir
+#   This is where rbenv will be installed to.
+#   Default: '/usr/local/rbenv'
 #   This variable is required.
 #
 # [$owner]
-#   This defines who owns the rbenv install directory. If you do not
-#   specify this parameter, it will use the default in rbenv::params.
-#   Default: $rbenv::params::owner
+#   This defines who owns the rbenv install directory.
+#   Default: 'root'
 #   This variable is required.
 #
 # [$group]
-#   This defines the group membership for rbenv. If you do not
-#   specify this parameter, it will use the default in rbenv::params.
-#   Default: $rbenv::params::group
+#   This defines the group membership for rbenv.
+#   Default: 'adm'
 #   This variable is required.
 #
 # === Requires
@@ -35,6 +37,9 @@
 #   install_dir => '/opt/rbenv',
 # }
 #
+# More information on using Hiera to override parameters is available here:
+#   http://docs.puppetlabs.com/hiera/1/puppet.html#automatic-parameter-lookup
+#
 # === Authors
 #
 # Justin Downing <justin@downing.us>
@@ -43,15 +48,16 @@
 #
 # Copyright 2013 Justin Downing
 #
-class rbenv(
-  $install_dir = $rbenv::params::install_dir,
-  $owner       = $rbenv::params::owner,
-  $group       = $rbenv::params::group
-) inherits rbenv::params {
+class rbenv (
+  $repo_path   = 'git://github.com/sstephenson/rbenv.git',
+  $install_dir = '/usr/local/rbenv',
+  $owner       = 'root',
+  $group       = 'adm'
+) {
 
   exec { 'git-clone-rbenv':
     command => "/usr/bin/git clone \
-               ${rbenv::params::repo_path} \
+               ${rbenv::repo_path} \
                ${install_dir}",
     creates => $install_dir,
     user    => $owner,
