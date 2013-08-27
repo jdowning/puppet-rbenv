@@ -1,4 +1,4 @@
-package { ['git', 'build-essential']: ensure => installed }->
+package { ['git', 'build-essential']: ensure => 'installed' }->
 class { 'rbenv': }->
 rbenv::plugin { 'sstephenson/ruby-build': }->
-rbenv::build { '1.9.3-p448': global => true }
+rbenv::build { '2.0.0-p247': global => true }
