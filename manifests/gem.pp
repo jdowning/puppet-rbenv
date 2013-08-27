@@ -24,16 +24,29 @@
 define rbenv::gem(
   $install_dir  = $rbenv::install_dir,
   $ruby_version = undef,
+  $gem_version  = undef,
 ) {
   require rbenv
 
-  exec { "gem-install-${name}":
-    command => "${install_dir}/versions/${ruby_version}/bin/gem install ${name}",
-    onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
-    unless  => "${install_dir}/versions/${ruby_version}/bin/gem list | grep ${name}",
-  }~>
-  exec { "rbenv-rehash-${name}":
-    command     => "${install_dir}/bin/rbenv rehash",
-    refreshonly => true,
+  if $gem_version {
+    exec { "gem-install-${name}-${gem_version}":
+      command => "${install_dir}/versions/${ruby_version}/bin/gem install ${name} --version ${gem_version}",
+      onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
+      unless  => "${install_dir}/versions/${ruby_version}/bin/gem list | grep ${name} | grep ${gem_version}",
+    }~>
+    exec { "rbenv-rehash-${name}":
+      command     => "${install_dir}/bin/rbenv rehash",
+      refreshonly => true,
+    }
+  } else {
+    exec { "gem-install-${name}":
+      command => "${install_dir}/versions/${ruby_version}/bin/gem install ${name}",
+      onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
+      unless  => "${install_dir}/versions/${ruby_version}/bin/gem list | grep ${name}",
+    }~>
+    exec { "rbenv-rehash-${name}":
+      command     => "${install_dir}/bin/rbenv rehash",
+      refreshonly => true,
+    }
   }
 }
