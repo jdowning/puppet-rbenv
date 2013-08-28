@@ -38,6 +38,7 @@ define rbenv::gem(
     onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
     unless  => "gem list ${name} --installed --version '${version}'",
     path    => "${install_dir}/versions/${ruby_version}/bin/",
+    require => Rbenv::Build[$ruby_version],
   }~>
   exec { "rbenv-rehash-${name}":
     command     => "${install_dir}/bin/rbenv rehash",
