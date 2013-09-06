@@ -1,0 +1,9 @@
+rvm: 1.9.3
+notifications:
+  email:
+    - justin@downing.us
+env:
+  - PUPPET_VERSION=2.7.23
+  - PUPPET_VERSION=3.0.2
+  - PUPPET_VERSION=3.1.1
+  - PUPPET_VERSION=3.2.4
