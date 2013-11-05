@@ -97,7 +97,7 @@ define rbenv::build (
   }
 
   if $global == true {
-    exec { "rbenv-global${title}":
+    exec { "rbenv-global-${title}":
       command     => "rbenv global ${title}",
       environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
