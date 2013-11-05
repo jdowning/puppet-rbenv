@@ -37,21 +37,18 @@ define rbenv::plugin(
   $owner       = $rbenv::owner,
   $group       = $rbenv::group,
 ) {
-  require rbenv
+  include rbenv
 
   $plugin = split($name, '/') # divide plugin name into array
 
   exec { "install-${name}":
-    command => "git clone https://github.com/${plugin[0]}/${plugin[1]}",
-    path    => [ '/usr/bin' ],
+    command => "/usr/bin/git clone git://github.com/${name}.git",
     cwd     => "${install_dir}/plugins",
-    onlyif  => "test -d ${install_dir}/plugins",
-    unless  => "test -d ${install_dir}/plugins/${plugin[1]}",
+    onlyif  => "/usr/bin/test -d ${install_dir}/plugins",
+    unless  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
   }~>
   exec { "rbenv-permissions-${name}":
-    command     => "chown -R ${owner}:${group} ${install_dir} && \
-                    chmod -R g+w ${install_dir}",
-    path        => [ '/bin' ],
+    command     => "/bin/chown -R ${owner}:${group} ${install_dir} && /bin/chmod -R g+w ${install_dir}",
     refreshonly => true,
   }
 

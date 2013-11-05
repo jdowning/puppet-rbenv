@@ -54,11 +54,12 @@ class rbenv (
   $owner       = 'root',
   $group       = 'adm'
 ) {
+  if ! defined(Package['git']) {
+    package { 'git': ensure => installed }
+  }
 
   exec { 'git-clone-rbenv':
-    command => "/usr/bin/git clone \
-               ${rbenv::repo_path} \
-               ${install_dir}",
+    command => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
     creates => $install_dir,
     user    => $owner,
   }
