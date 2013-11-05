@@ -1,0 +1,4 @@
+---
+fixtures:
+  symlinks:
+    rbenv: "#{source_dir}"
