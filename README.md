@@ -1,5 +1,7 @@
 # puppet-rbenv
 
+[![Build Status](https://travis-ci.org/justindowning/puppet-rbenv.png)](https://travis-ci.org/justindowning/puppet-rbenv)
+
 ## Description
 This Puppet module will install and manage rbenv on Ubuntu. Additionally,
 you can install rbenv plugins and ruby gems.
