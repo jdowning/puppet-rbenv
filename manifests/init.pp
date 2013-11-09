@@ -27,11 +27,9 @@
 #
 # === Requires
 #
-# You will need to install the git package on the host system.
-#
 # === Examples
 #
-# class { rbenv: }  #Uses the default parameters from rbenv::params
+# class { rbenv: }  #Uses the default parameters
 #
 # class { rbenv:  #Uses a user-defined installation path
 #   install_dir => '/opt/rbenv',
@@ -52,16 +50,15 @@ class rbenv (
   $repo_path   = 'git://github.com/sstephenson/rbenv.git',
   $install_dir = '/usr/local/rbenv',
   $owner       = 'root',
-  $group       = 'adm'
+  $group       = $rbenv::deps::group,
 ) {
-  if ! defined(Package['git']) {
-    package { 'git': ensure => installed }
-  }
+  include rbenv::deps
 
   exec { 'git-clone-rbenv':
     command => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
     creates => $install_dir,
     user    => $owner,
+    require => Package['git'],
   }
 
   file { [
