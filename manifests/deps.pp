@@ -18,10 +18,6 @@
 #
 class rbenv::deps {
 
-  if $caller_module_name != $module_name {
-    fail("Use of private class ${name} by ${caller_module_name}")
-  }
-
   if ! defined(Package['git']) {
     package { 'git': }
   }

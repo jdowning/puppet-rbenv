@@ -51,7 +51,7 @@ class rbenv (
   $install_dir = '/usr/local/rbenv',
   $owner       = 'root',
   $group       = $rbenv::deps::group,
-) {
+) inherits rbenv::deps {
   include rbenv::deps
 
   exec { 'git-clone-rbenv':
