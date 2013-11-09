@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'rbenv', :type => 'class' do
-  it { should contain_package('git').with( { 'name' => 'git' } ) }
+  let(:facts) { { :osfamily => 'Debian' } }
 
   it { should contain_exec('git-clone-rbenv').with(
     {
