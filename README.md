@@ -71,4 +71,4 @@ To test both boxes:
 
 To test one ditribution:
 
-    vagrant up [ubuntu|centos]
+    vagrant up [centos|suse|ubuntu]
