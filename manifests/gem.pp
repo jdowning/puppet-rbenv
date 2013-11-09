@@ -1,5 +1,7 @@
 # == Define: rbenv::gem
 #
+# Calling this define will install a ruby gem for a specific ruby version
+#
 # === Variable
 #
 # [$install_dir]
@@ -20,7 +22,7 @@
 #
 # === Examples
 #
-# rbenv::gem { 'thor': ruby_version => '2.0.0-p195' }
+# rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
 #
 # === Authors
 #
@@ -31,11 +33,14 @@ define rbenv::gem(
   $version      = '>=0',
   $ruby_version = undef,
 ) {
-  require rbenv
+  include rbenv
+
+  if $ruby_version == undef {
+    fail('You must declare a ruby_version for rbenv::gem')
+  }
 
   exec { "gem-install-${name}":
     command => "gem install ${name} --version '${version}'",
-    onlyif  => "/usr/bin/test -d ${install_dir}/versions/${ruby_version}",
     unless  => "gem list ${name} --installed --version '${version}'",
     path    => "${install_dir}/versions/${ruby_version}/bin/",
   }~>
@@ -43,4 +48,6 @@ define rbenv::gem(
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }
+
+  Exec { require => Exec["rbenv-install-${ruby_version}"] }
 }

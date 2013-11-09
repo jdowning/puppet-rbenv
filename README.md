@@ -3,8 +3,9 @@
 [![Build Status](https://travis-ci.org/justindowning/puppet-rbenv.png)](https://travis-ci.org/justindowning/puppet-rbenv)
 
 ## Description
-This Puppet module will install and manage rbenv on Ubuntu. Additionally,
-you can install rbenv plugins and ruby gems.
+This Puppet module will install and manage [rbenv](http://rbenv.org). By default, it installs
+rbenv for systemwide use, rather than for a user or project. Additionally,
+you can install different versions of Ruby, rbenv plugins, and Ruby gems.
 
 ## Installation
 
@@ -21,51 +22,53 @@ If you wish to install rbenv somewhere other than the default
     class { 'rbenv': install_dir => '/opt/rbenv' }
 
 The class will merely setup rbenv on your host. If you wish to install
-plugins or gems, you will have to add those declarations to your manifests
+rubies, plugins, or gems, you will have to add those declarations to your manifests
 as well.
+
+### Installing Ruby using ruby-build
+Ruby requires additional packages to operate properly. Fortunately, this module
+will ensure these dependencies are met before installing Ruby. To install Ruby
+you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin from @sstephenson. Once
+installed, you can install most any Ruby. Additionally, you can set the Ruby
+to be the global interpreter.
+
+    rbenv::plugin { 'sstephenson/ruby-build': }
+    rbenv::build { '2.0.0-p247': global => true }
 
 ## Plugins
 Plugins can be installed from GitHub using the following definiton:
 
     rbenv::plugin { 'github_user/github_repo': }
 
-### Installing and using ruby-build
-
-Ruby requires additional packages to operate properly. On a Ubuntu 12.04 (or higher), you should ensure the following packages are installed:  
-
-    sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev \
-      curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 \
-      libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool
-
-To install rubies you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin 
-from @sstephenson. Once installed, you can install most any Ruby. Additionally,
-you can set the ruby to be the global interpreter.
-
-    rbenv::plugin { 'sstephenson/ruby-build': }->
-    rbenv::build { '2.0.0-p195': global => true }
-
 ## Gems
 Gems can be installed too! You *must* specify the `ruby_version` you want to
 install for.
 
-    rbenv::gem { 'thor': ruby_version => '2.0.0-p195' }
+    rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
 
-## Requirements
-You will need to install the `git` package. If you plan on using `rbenv::build`, then you will also need the `build-essential` package.
-
-## Example
+## Full Example
 site.pp
 
-    package { 'build-essential': }
-    class { 'rbenv': }->rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
-    rbenv::build { '2.0.0-p195': global => true }
-    rbenv::gem { 'thor': ruby_version   => '2.0.0-p195' }
+    class { 'rbenv': }
+    rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
+    rbenv::build { '2.0.0-p247': global => true }
+    rbenv::gem { 'thor': ruby_version   => '2.0.0-p247' }
 
 ## Testing
+You can test this module with rspec:
 
-In order to successfully run `vagrant up`, this repository directory
-must be called `rbenv`, not `puppet-rbenv`.
+    bundle install
+    bundle exec rake spec
 
-    $ git clone https://github.com/justindowning/puppet-rbenv rbenv
-    $ cd rbenv
-    $ vagrant up
+## Vagrant
+
+You can also test this module in a Vagrant box. There are two box definitons included in the
+Vagrant file for Debian and Redhat testing.
+
+To test both boxes:
+
+    vagrant up
+
+To test one ditribution:
+
+    vagrant up [ubuntu|centos]
