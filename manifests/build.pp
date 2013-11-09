@@ -1,5 +1,9 @@
 # == Define: rbenv::build
 #
+# Calling this define will install Ruby in your default rbenv
+# installs directory. Additionally, it can define the installed
+# ruby as the global interpretter. It will install the bundler gem.
+#
 # === Variables
 #
 # [$install_dir]
@@ -33,11 +37,9 @@
 #
 # === Requires
 #
-# You will need to have `git` and `build-essential` installed to compile rubies.
-#
 # === Examples
 #
-# rbenv::build { '2.0.0-p195': global => true }
+# rbenv::build { '2.0.0-p247': global => true }
 #
 # === Authors
 #
@@ -50,11 +52,11 @@ define rbenv::build (
   $global      = false,
   $cflags      = '-O3 -march=native',
 ) {
-  require rbenv
+  include rbenv
 
   $environment_for_build = $cflags ? {
-    'none'  => ["RBENV_ROOT=${install_dir}"],
-    default => ["CFLAGS=${cflags}", "RBENV_ROOT=${install_dir}"],
+    'none'  => [ "RBENV_ROOT=${install_dir}" ],
+    default => [ "CFLAGS=${cflags}", "RBENV_ROOT=${install_dir}" ],
   }
 
   Exec {
@@ -81,19 +83,15 @@ define rbenv::build (
     environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
-  exec { "bundler-install-${title}":
-    command     => 'gem install bundler',
-    environment => ["RBENV_VERSION=${title}"],
-    refreshonly => true,
-  }~>
-  exec { "rbenv-rehash-${title}":
-    command     => 'rbenv rehash',
-    refreshonly => true,
-  }~>
   exec { "rbenv-ownit-${title}":
     command     => "chown -R ${owner}:${group} ${install_dir}/versions/${title} && chmod -R g+w ${install_dir}/versions/${title}",
     user        => 'root',
     refreshonly => true,
+  }
+
+  # Install Bundler
+  rbenv::gem { 'bundler':
+    ruby_version => $title,
   }
 
   if $global == true {
