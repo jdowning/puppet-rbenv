@@ -3,7 +3,6 @@
 # This module manages rbenv dependencies for redhat $::osfamily.
 #
 class rbenv::deps::redhat {
-
   if ! defined(Package['binutils']) {
     package { 'binutils': ensure => installed }
   }
@@ -31,5 +30,4 @@ class rbenv::deps::redhat {
   if ! defined(Package['zlib-devel']) {
     package { 'zlib-devel': ensure => installed }
   }
-
 }
