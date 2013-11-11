@@ -10,6 +10,12 @@
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
+# [$gem]
+#   The name of the gem to be installed. Useful if you are going
+#   to install the same gem under multiple ruby versions.
+#   Default: $title
+#   This variable is optional.
+#
 # [$version]
 #   The version of the gem to be installed.
 #   Default: '>= 0'
@@ -30,6 +36,7 @@
 #
 define rbenv::gem(
   $install_dir  = $rbenv::install_dir,
+  $gem          = $title,
   $version      = '>=0',
   $ruby_version = undef,
 ) {
@@ -39,12 +46,12 @@ define rbenv::gem(
     fail('You must declare a ruby_version for rbenv::gem')
   }
 
-  exec { "gem-install-${name}":
-    command => "gem install ${name} --version '${version}'",
-    unless  => "gem list ${name} --installed --version '${version}'",
+  exec { "gem-install-${gem}-${ruby_version}":
+    command => "gem install ${gem} --version '${version}'",
+    unless  => "gem list ${gem} --installed --version '${version}'",
     path    => "${install_dir}/versions/${ruby_version}/bin/",
   }~>
-  exec { "rbenv-rehash-${name}":
+  exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }

@@ -90,7 +90,8 @@ define rbenv::build (
   }
 
   # Install Bundler
-  rbenv::gem { 'bundler':
+  rbenv::gem { "bundler-${title}":
+    gem          => 'bundler',
     ruby_version => $title,
   }
 
