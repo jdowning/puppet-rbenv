@@ -54,6 +54,10 @@ define rbenv::gem(
   exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
+  }~>
+  exec { "rbenv-permissions-${gem}-${ruby_version}":
+    command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} ${install_dir}/versions/${ruby_version}/lib/ruby/gems && /bin/chmod -R g+w ${install_dir}/versions/${ruby_version}/lib/ruby/gems",
+    refreshonly => true,
   }
 
   Exec { require => Exec["rbenv-install-${ruby_version}"] }

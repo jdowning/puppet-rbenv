@@ -8,18 +8,6 @@
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
-# [$owner]
-#   This is set when you declare the rbenv class. There is no
-#   need to overrite it when calling the rbenv::build define.
-#   Default: $rbenv::owner
-#   This variable is required.
-#
-# [$group]
-#   This is set when you declare the rbenv class. There is no
-#   need to overrite it when calling the rbenv::build define.
-#   Default: $rbenv::group
-#   This variable is required.
-#
 # === Requires
 #
 # You will need to install the git package on the host system.
@@ -34,8 +22,6 @@
 #
 define rbenv::plugin(
   $install_dir = $rbenv::install_dir,
-  $owner       = $rbenv::owner,
-  $group       = $rbenv::group,
 ) {
   include rbenv
 
@@ -48,7 +34,7 @@ define rbenv::plugin(
     unless  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
   }~>
   exec { "rbenv-permissions-${name}":
-    command     => "/bin/chown -R ${owner}:${group} ${install_dir} && /bin/chmod -R g+w ${install_dir}",
+    command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} ${install_dir} && /bin/chmod -R g+w ${install_dir}",
     refreshonly => true,
   }
 

@@ -13,10 +13,8 @@ describe 'rbenv::gem' do
     end
 
     it { should include_class('rbenv') }
-
     it { should contain_exec("gem-install-bundler-2.0.0-p247") }
-
     it { should contain_exec("rbenv-rehash-bundler-2.0.0-p247") }
-
+    it { should contain_exec("rbenv-permissions-bundler-2.0.0-p247") }
   end
 end
