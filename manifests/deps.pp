@@ -29,7 +29,7 @@ class rbenv::deps {
     }
     'RedHat': {
       include rbenv::deps::redhat
-      $group = 'whell'
+      $group = 'wheel'
     }
     'Suse': {
       include rbenv::deps::suse
