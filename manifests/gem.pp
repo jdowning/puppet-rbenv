@@ -49,7 +49,7 @@ define rbenv::gem(
   exec { "gem-install-${gem}-${ruby_version}":
     command => "gem install ${gem} --version '${version}'",
     unless  => "gem list ${gem} --installed --version '${version}'",
-    path    => "${install_dir}/versions/${ruby_version}/bin/",
+    path    => ["${install_dir}/versions/${ruby_version}/bin/",'/usr/bin','/usr/sbin','/bin','/sbin'],
   }~>
   exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",
