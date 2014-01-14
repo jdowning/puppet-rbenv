@@ -51,6 +51,7 @@ define rbenv::build (
   $group       = $rbenv::group,
   $global      = false,
   $cflags      = '-O3 -march=native',
+  $build_repo  = 'sstephenson'
 ) {
   include rbenv
 
@@ -76,7 +77,7 @@ define rbenv::build (
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => 'root',
     unless  => "test -d ${install_dir}/versions/${title}",
-    require => Rbenv::Plugin['sstephenson/ruby-build'],
+    require => Rbenv::Plugin["$build_repo/ruby-build"],
   }->
   exec { "rbenv-install-${title}":
     command     => "rbenv install ${title}",
