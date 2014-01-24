@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "ubuntu" do |ubuntu|
+  config.vm.define "ubuntu", primary: true do |ubuntu|
     ubuntu.vm.box     = 'ubuntu64'
     ubuntu.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box'
     ubuntu.vm.provision :shell, :inline => 'aptitude update'
