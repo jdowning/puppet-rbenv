@@ -5,7 +5,7 @@ describe 'rbenv', :type => 'class' do
 
   it { should contain_exec('git-clone-rbenv').with(
     {
-      'command' => '/usr/bin/git clone git://github.com/sstephenson/rbenv.git /usr/local/rbenv',
+      'command' => '/usr/bin/git clone https://github.com/sstephenson/rbenv.git /usr/local/rbenv',
       'creates' => '/usr/local/rbenv',
     }
   )}
