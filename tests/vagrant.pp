@@ -14,5 +14,6 @@ rbenv::build { '2.0.0-p247': global => true }
 
 rbenv::gem { 'backup':
   version      => '3.9.0',
-  ruby_version => '2.0.0-p247'
+  ruby_version => '2.0.0-p247',
+  skip_docs    => true,
 }
