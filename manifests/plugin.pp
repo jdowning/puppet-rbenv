@@ -28,7 +28,7 @@ define rbenv::plugin(
   $plugin = split($name, '/') # divide plugin name into array
 
   exec { "install-${name}":
-    command => "/usr/bin/git clone git://github.com/${name}.git",
+    command => "/usr/bin/git clone https://github.com/${name}.git",
     cwd     => "${install_dir}/plugins",
     onlyif  => "/usr/bin/test -d ${install_dir}/plugins",
     unless  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",

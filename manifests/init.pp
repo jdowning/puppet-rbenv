@@ -7,7 +7,7 @@
 #
 # [$repo_path]
 #   This is the git repo used to install rbenv.
-#   Default: 'git://github.com/sstephenson/rbenv.git'
+#   Default: 'https://github.com/sstephenson/rbenv.git'
 #   This variable is required.
 #
 # [$install_dir]
@@ -47,7 +47,7 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv (
-  $repo_path   = 'git://github.com/sstephenson/rbenv.git',
+  $repo_path   = 'https://github.com/sstephenson/rbenv.git',
   $install_dir = '/usr/local/rbenv',
   $owner       = 'root',
   $group       = $rbenv::deps::group,
