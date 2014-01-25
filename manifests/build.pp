@@ -79,7 +79,7 @@ define rbenv::build (
     require => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
-    command     => "rbenv install ${title}",
+    command     => "su -l -c 'rbenv install ${title}' - root",
     environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
