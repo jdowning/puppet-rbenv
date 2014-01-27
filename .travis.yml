@@ -9,11 +9,11 @@ bundler_args: --without development
 script: bundle exec rake spec SPEC_OPTS='--format documentation'
 env:
   matrix:
-    - PUPPET_VERSION="2.7.25"
-    - PUPPET_VERSION="3.1.1"
-    - PUPPET_VERSION="3.2.4"
-    - PUPPET_VERSION="3.3.2"
-    - PUPPET_VERSION="3.4.2"
+    - PUPPET_GEM_VERSION="2.7.25"
+    - PUPPET_GEM_VERSION="3.1.1"
+    - PUPPET_GEM_VERSION="3.2.4"
+    - PUPPET_GEM_VERSION="3.3.2"
+    - PUPPET_GEM_VERSION="3.4.2"
 notifications:
   email:
     - justin@downing.us
