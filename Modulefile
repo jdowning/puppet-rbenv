@@ -1,5 +1,5 @@
 name    'jdowning/rbenv'
-version '1.0.3'
+version '1.1.0'
 source 'https://github.com/justindowning/puppet-rbenv'
 author 'Justin Donwing'
 license 'Apache License, Version 2.0'
