@@ -32,7 +32,7 @@
 # [$cflags]
 #   This is used to set CFLAGS when compiling ruby. When set
 #   to 'none', the environment variable will not be set.
-#   Default: '-O3 -march=native'
+#   Default: '-O3'
 #   This variable is optional.
 #
 # === Requires
@@ -50,7 +50,7 @@ define rbenv::build (
   $owner       = $rbenv::owner,
   $group       = $rbenv::group,
   $global      = false,
-  $cflags      = '-O3 -march=native',
+  $cflags      = '-O3',
 ) {
   include rbenv
 
