@@ -63,7 +63,7 @@ You can test this module with rspec:
 ## Vagrant
 
 You can also test this module in a Vagrant box. There are two box definitons included in the
-Vagrant file for Debian and Redhat testing.
+Vagrant file for CentOS and Ubuntu testing.
 
 To test both boxes:
 
@@ -71,4 +71,4 @@ To test both boxes:
 
 To test one ditribution:
 
-    vagrant up [centos|suse|ubuntu]
+    vagrant up [centos|ubuntu]
