@@ -1,12 +1,6 @@
 # == Class: rbenv::deps
 #
-# This module manages rbenv dependencies.
-#
-# === Variables
-#
-# === Requires
-#
-# === Examples
+# This module manages rbenv dependencies and should *not* be called directly.
 #
 # === Authors
 #
@@ -17,10 +11,7 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv::deps {
-
-  if ! defined(Package['git']) {
-    package { 'git': }
-  }
+  include ::git
 
   case $::osfamily {
     'Debian': {
