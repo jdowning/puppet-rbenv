@@ -30,6 +30,11 @@
 #   Skips the installation of ri and rdoc docs.
 #   Default: false
 #   This variable is optional.
+
+# [$timeout]
+#   Seconds that a gem has to finish installing. Set to 0 for unlimited.
+#   Default: 300
+#   This variable is optional.
 #
 # === Examples
 #
@@ -45,6 +50,7 @@ define rbenv::gem(
   $version      = '>=0',
   $ruby_version = undef,
   $skip_docs    = false,
+  $timeout      = 300,
 ) {
   include rbenv
 
@@ -61,6 +67,7 @@ define rbenv::gem(
     command => "gem install ${gem} --version '${version}' ${docs}",
     unless  => "gem list ${gem} --installed --version '${version}'",
     path    => ["${install_dir}/versions/${ruby_version}/bin/",'/usr/bin','/usr/sbin','/bin','/sbin'],
+    timeout => $timeout
   }~>
   exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",
