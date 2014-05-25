@@ -17,10 +17,7 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv::deps {
-
-  if ! defined(Package['git']) {
-    package { 'git': }
-  }
+  include ::git
 
   case $::osfamily {
     'Debian': {
