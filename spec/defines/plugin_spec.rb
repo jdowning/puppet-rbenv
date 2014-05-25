@@ -10,7 +10,7 @@ describe 'rbenv::plugin' do
       }
     end
 
-    it { should include_class('rbenv') }
+    it { should contain_class('rbenv') }
     it { should contain_exec("install-sstephenson/ruby-build") }
     it { should contain_exec("rbenv-permissions-sstephenson/ruby-build") }
   end

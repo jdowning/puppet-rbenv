@@ -14,7 +14,7 @@ describe 'rbenv::build' do
       }
     end
 
-    it { should include_class('rbenv') }
+    it { should contain_class('rbenv') }
 
     it { should contain_exec("own-plugins-2.0.0-p247") }
     it { should contain_exec("git-pull-rubybuild-2.0.0-p247") }
