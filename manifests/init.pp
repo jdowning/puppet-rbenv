@@ -27,6 +27,8 @@
 #
 # === Requires
 #
+# This module requires the 'puppetlabs/git' module >= 0.0.3
+#
 # === Examples
 #
 # class { rbenv: }  #Uses the default parameters

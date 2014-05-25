@@ -1,12 +1,6 @@
 # == Class: rbenv::deps
 #
-# This module manages rbenv dependencies.
-#
-# === Variables
-#
-# === Requires
-#
-# === Examples
+# This module manages rbenv dependencies and should *not* be called directly.
 #
 # === Authors
 #

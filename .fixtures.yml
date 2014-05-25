@@ -1,4 +1,6 @@
 ---
 fixtures:
+  repositories:
+    git: https://github.com/puppetlabs/puppetlabs-git
   symlinks:
     rbenv: "#{source_dir}"
