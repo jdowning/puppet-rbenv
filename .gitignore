@@ -1,3 +1,9 @@
 Gemfile.lock
+*.swp
+.librarian/
+.tmp/
+.vagrant
+modules/
 pkg/*
-.vagrant*
+spec/fixtures/manifests/
+spec/fixtures/modules/
