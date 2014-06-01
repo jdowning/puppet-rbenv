@@ -63,7 +63,7 @@ You can test this module with rspec:
 ## Vagrant
 
 You can also test this module in a Vagrant box. There are two box definitons included in the
-Vagrant file for CentOS and Ubuntu testing. You will need to use `librarian-puppet` to setup
+Vagrant file for CentOS, Debian, and Ubuntu testing. You will need to use `librarian-puppet` to setup
 dependencies:
 
     bundle install
@@ -75,4 +75,4 @@ To test both boxes:
 
 To test one distribution:
 
-    vagrant up [centos|ubuntu]
+    vagrant up [centos|debian|ubuntu]
