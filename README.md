@@ -21,6 +21,13 @@ If you wish to install rbenv somewhere other than the default
 
     class { 'rbenv': install_dir => '/opt/rbenv' }
 
+You can also ensure rbenv is kept up-to-date:
+
+    class { 'rbenv':
+      install_dir => '/opt/rbenv'
+      latest      => true
+    }
+
 The class will merely setup rbenv on your host. If you wish to install
 rubies, plugins, or gems, you will have to add those declarations to your manifests
 as well.
@@ -39,6 +46,11 @@ you can set the Ruby to be the global interpreter.
 Plugins can be installed from GitHub using the following definiton:
 
     rbenv::plugin { 'github_user/github_repo': }
+
+You can ensure a plugin is kept up-to-date. This is helpful for a plugin like
+`ruby-build` so that definitions are always available:
+
+    rbenv::plugin { 'sstephenson/ruby-build': latest => true }
 
 ## Gems
 Gems can be installed too! You *must* specify the `ruby_version` you want to
