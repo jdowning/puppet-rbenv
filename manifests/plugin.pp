@@ -8,6 +8,11 @@
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
+# [$latest]
+#   This defines whether the plugin is kept up-to-date.
+#   Defaults: false
+#   This vaiable is optional.
+#
 # === Requires
 #
 # You will need to install the git package on the host system.
@@ -22,6 +27,7 @@
 #
 define rbenv::plugin(
   $install_dir = $rbenv::install_dir,
+  $latest      = false,
 ) {
   include rbenv
 
@@ -38,4 +44,13 @@ define rbenv::plugin(
     refreshonly => true,
   }
 
+  # run `git pull` on each run if we want to keep the plugin updated
+  if $latest == true {
+    exec { "update-${name}":
+      command => '/usr/bin/git pull',
+      cwd     => "${install_dir}/plugins/${plugin[1]}",
+      user    => $rbenv::owner,
+      onlyif  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
+    }
+  }
 }

@@ -52,7 +52,7 @@ site.pp
     class { 'rbenv': }
     rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
     rbenv::build { '2.0.0-p247': global => true }
-    rbenv::gem { 'thor': ruby_version   => '2.0.0-p247' }
+    rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
 
 ## Testing
 You can test this module with rspec:

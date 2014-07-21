@@ -25,6 +25,11 @@
 #   Default: 'adm'
 #   This variable is required.
 #
+# [$latest]
+#   This defines whether the rbenv $install_dir is kept up-to-date.
+#   Defaults: false
+#   This vaiable is optional.
+#
 # === Requires
 #
 # This module requires the following modules:
@@ -55,6 +60,7 @@ class rbenv (
   $install_dir = '/usr/local/rbenv',
   $owner       = 'root',
   $group       = $rbenv::deps::group,
+  $latest      = false,
 ) inherits rbenv::deps {
   include rbenv::deps
 
@@ -81,6 +87,16 @@ class rbenv (
     ensure    => file,
     content   => template('rbenv/rbenv.sh'),
     mode      => '0775'
+  }
+
+  # run `git pull` on each run if we want to keep rbenv updated
+  if $rbenv::latest == true {
+    exec { 'update-rbenv':
+      command     => '/usr/bin/git pull',
+      cwd         => $install_dir,
+      user        => $owner,
+      require     => File[$install_dir],
+    }
   }
 
   Exec['git-clone-rbenv'] -> File[$install_dir]
