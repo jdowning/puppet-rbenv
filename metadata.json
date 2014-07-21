@@ -11,6 +11,10 @@
     {
       "name": "puppetlabs/git",
       "version_requirement": ">= 0.0.3"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.1.0"
     }
   ],
   "operatingsystem_support": [
@@ -18,7 +22,8 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
@@ -61,7 +66,7 @@
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": "3.2.x"
+      "version_requirement": "3.x"
     },
     {
       "name": "puppet",

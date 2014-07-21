@@ -10,7 +10,7 @@ describe 'rbenv::build' do
         :owner       => 'root',
         :group       => 'adm',
         :global      => false,
-        :cflags      => '-O3 -march=native',
+        :env         => ['RUBY_CFLAGS=-O3 -march=native'],
       }
     end
 
@@ -28,7 +28,7 @@ describe 'rbenv::build' do
           :owner       => 'root',
           :group       => 'adm',
           :global      => true,
-          :cflags      => '-O3 -march=native',
+          :env         => ['RUBY_CFLAGS=-O3 -march=native'],
         }
       end
 
