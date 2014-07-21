@@ -2,5 +2,6 @@
 fixtures:
   repositories:
     git: https://github.com/puppetlabs/puppetlabs-git
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
   symlinks:
     rbenv: "#{source_dir}"

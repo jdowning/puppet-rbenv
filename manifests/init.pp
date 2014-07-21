@@ -27,7 +27,9 @@
 #
 # === Requires
 #
-# This module requires the 'puppetlabs/git' module >= 0.0.3
+# This module requires the following modules:
+#   'puppetlabs/git' >= 0.0.3
+#   'puppetlabs/stdlib' >= 4.1.0
 #
 # === Examples
 #

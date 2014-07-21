@@ -28,9 +28,9 @@ as well.
 ### Installing Ruby using ruby-build
 Ruby requires additional packages to operate properly. Fortunately, this module
 will ensure these dependencies are met before installing Ruby. To install Ruby
-you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin from @sstephenson. Once
-installed, you can install most any Ruby. Additionally, you can set the Ruby
-to be the global interpreter.
+you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin
+from @sstephenson. Once installed, you can install most any Ruby. Additionally,
+you can set the Ruby to be the global interpreter.
 
     rbenv::plugin { 'sstephenson/ruby-build': }
     rbenv::build { '2.0.0-p247': global => true }

@@ -29,13 +29,10 @@
 #   Default: false
 #   This variable is optional.
 #
-# [$cflags]
-#   This is used to set CFLAGS when compiling ruby. When set
-#   to 'none', the environment variable will not be set.
-#   Default: '-O3'
+# [$env]
+#   This is used to set environment variables when compiling ruby.
+#   Default: []
 #   This variable is optional.
-#
-# === Requires
 #
 # === Examples
 #
@@ -50,14 +47,13 @@ define rbenv::build (
   $owner       = $rbenv::owner,
   $group       = $rbenv::group,
   $global      = false,
-  $cflags      = '-O3',
+  $env         = [],
 ) {
   include rbenv
 
-  $environment_for_build = $cflags ? {
-    'none'  => [ "RBENV_ROOT=${install_dir}" ],
-    default => [ "CFLAGS=${cflags}", "RBENV_ROOT=${install_dir}" ],
-  }
+  validate_bool($global)
+  validate_array($env)
+  $environment_for_build = concat(["RBENV_ROOT=${install_dir}"], $env)
 
   Exec {
     cwd     => $install_dir,

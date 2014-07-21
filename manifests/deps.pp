@@ -12,6 +12,7 @@
 #
 class rbenv::deps {
   include ::git
+  include ::stdlib
 
   case $::osfamily {
     'Debian': {
