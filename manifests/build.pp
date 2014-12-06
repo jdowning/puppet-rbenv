@@ -29,7 +29,7 @@
 #   Default: false
 #   This variable is optional.
 #
-# [%keep
+# [%keep]
 #   This is used to keep the source code of a compiled ruby.
 #   Default: false
 #   This variable is optional.
