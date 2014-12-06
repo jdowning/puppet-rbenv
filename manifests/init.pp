@@ -77,25 +77,25 @@ class rbenv (
     "${install_dir}/shims",
     "${install_dir}/versions"
   ]:
-    ensure  => directory,
-    owner   => $owner,
-    group   => $group,
-    mode    => '0775',
+    ensure => directory,
+    owner  => $owner,
+    group  => $group,
+    mode   => '0775',
   }
 
   file { '/etc/profile.d/rbenv.sh':
-    ensure    => file,
-    content   => template('rbenv/rbenv.sh'),
-    mode      => '0775'
+    ensure  => file,
+    content => template('rbenv/rbenv.sh'),
+    mode    => '0775'
   }
 
   # run `git pull` on each run if we want to keep rbenv updated
   if $rbenv::latest == true {
     exec { 'update-rbenv':
-      command     => '/usr/bin/git pull',
-      cwd         => $install_dir,
-      user        => $owner,
-      require     => File[$install_dir],
+      command => '/usr/bin/git pull',
+      cwd     => $install_dir,
+      user    => $owner,
+      require => File[$install_dir],
     }
   }
 
