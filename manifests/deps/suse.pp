@@ -22,4 +22,8 @@ class rbenv::deps::suse {
   if ! defined(Package['zlib-devel']) {
     package { 'zlib-devel': ensure => installed }
   }
+
+  if ! defined(Package['libffi-devel']) {
+    package { 'libffi-dev': ensure => installed }
+  }
 }
