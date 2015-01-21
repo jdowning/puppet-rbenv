@@ -32,6 +32,6 @@ class rbenv::deps::redhat {
   }
 
   if ! defined(Package['libffi-devel']) {
-    package { 'libffi-dev': ensure => installed }
+    package { 'libffi-devel': ensure => installed }
   }
 }
