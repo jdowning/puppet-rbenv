@@ -27,6 +27,8 @@ class rbenv::deps {
       include rbenv::deps::suse
       $group = 'users'
     }
-    default:  { fail('The rbenv module currently only suports Debian, RedHat, and Suse families') }
+    default: {
+      fail('The rbenv module currently only suports Debian, RedHat, and Suse.')
+    }
   }
 }

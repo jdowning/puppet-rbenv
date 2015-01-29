@@ -66,7 +66,13 @@ define rbenv::gem(
   exec { "gem-install-${gem}-${ruby_version}":
     command => "gem install ${gem} --version '${version}' ${docs}",
     unless  => "gem list ${gem} --installed --version '${version}'",
-    path    => ["${install_dir}/versions/${ruby_version}/bin/",'/usr/bin','/usr/sbin','/bin','/sbin'],
+    path    => [
+      "${install_dir}/versions/${ruby_version}/bin/",
+      '/usr/bin',
+      '/usr/sbin',
+      '/bin',
+      '/sbin'
+    ],
     timeout => $timeout
   }~>
   exec { "rbenv-rehash-${gem}-${ruby_version}":
@@ -75,7 +81,10 @@ define rbenv::gem(
     environment => [ "RBENV_ROOT=${install_dir}" ],
   }~>
   exec { "rbenv-permissions-${gem}-${ruby_version}":
-    command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} ${install_dir}/versions/${ruby_version}/lib/ruby/gems && /bin/chmod -R g+w ${install_dir}/versions/${ruby_version}/lib/ruby/gems",
+    command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} \
+                  ${install_dir}/versions/${ruby_version}/lib/ruby/gems && \
+                  /bin/chmod -R g+w \
+                  ${install_dir}/versions/${ruby_version}/lib/ruby/gems",
     refreshonly => true,
   }
 

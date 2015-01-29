@@ -10,7 +10,11 @@ file { '/usr/lib/libjemalloc.so':
 }->
 rbenv::build { '2.1.2':
   global => true,
-  env    => ['RUBY_CFLAGS=-O3 -march=native', 'LIBS=-ljemalloc', 'MAKE_OPTS=-j4', 'MAKE_INSTALL_OPTS=-j4'],
+  env    => [
+    'CONFIGURE_OPTS=--disable-install-doc',
+    'RUBY_CFLAGS=-O3 -g -march=native',
+    'MAKE_OPTS=-j4','MAKE_INSTALL_OPTS=-j4'
+  ],
 }
 
 rbenv::gem { 'backup':
