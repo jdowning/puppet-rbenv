@@ -7,9 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/tmp/puppet-modules/rbenv", type: "rsync", rsync__exclude: ".git/"
 
   config.vm.define "centos" do |centos|
-    centos.vm.box     = 'centos65'
-    centos.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box'
-    config.vm.provision :shell, :inline => "sudo yum install -y openssl"
+    centos.vm.box     = 'puppetlabs/centos-7.0-64-puppet'
+    #config.vm.provision :shell, :inline => "sudo yum install -y openssl"
     centos.vm.provision :puppet do |puppet|
       puppet.manifests_path = "tests/vagrant"
       puppet.manifest_file  = "centos.pp"
@@ -18,8 +17,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "debian", primary: true do |debian|
-    debian.vm.box     = 'debian-607-x64'
-    debian.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/debian-607-x64-vbox4210.box'
+    debian.vm.box     = 'puppetlabs/debian-7.6-64-puppet'
     debian.vm.provision :shell, :inline => 'apt-get update'
     debian.vm.provision :puppet do |puppet|
       puppet.manifests_path = "tests/vagrant"
@@ -29,8 +27,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "ubuntu", primary: true do |ubuntu|
-    ubuntu.vm.box     = 'ubuntu64'
-    ubuntu.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box'
+    ubuntu.vm.box     = 'puppetlabs/ubuntu-14.04-64-puppet'
     ubuntu.vm.provision :shell, :inline => 'aptitude update'
     ubuntu.vm.provision :puppet do |puppet|
       puppet.manifests_path = "tests/vagrant"

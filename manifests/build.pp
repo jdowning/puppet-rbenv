@@ -64,7 +64,14 @@ define rbenv::build (
 
   Exec {
     cwd     => $install_dir,
-    path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/', "${install_dir}/bin/", "${install_dir}/shims/" ],
+    path    => [
+      '/bin/',
+      '/sbin/',
+      '/usr/bin/',
+      '/usr/sbin/',
+      "${install_dir}/bin/",
+      "${install_dir}/shims/"
+    ],
     timeout => 1800,
   }
 
@@ -92,7 +99,9 @@ define rbenv::build (
     creates     => "${install_dir}/versions/${title}",
   }~>
   exec { "rbenv-ownit-${title}":
-    command     => "chown -R ${owner}:${group} ${install_dir}/versions/${title} && chmod -R g+w ${install_dir}/versions/${title}",
+    command     => "chown -R ${owner}:${group} \
+                    ${install_dir}/versions/${title} && \
+                    chmod -R g+w ${install_dir}/versions/${title}",
     user        => 'root',
     refreshonly => true,
   }
