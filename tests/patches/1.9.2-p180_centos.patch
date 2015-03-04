@@ -1,0 +1,88 @@
+From 0d58bb55985e787364b0235e5e69278d0f0ad4b0 Mon Sep 17 00:00:00 2001
+From: emboss <emboss@b2dd03c8-39d4-4d8f-98ff-823fe69b080e>
+Date: Fri, 5 Jul 2013 22:46:42 +0000
+Subject: [PATCH] * ext/openssl/ossl_pkey_ec.c: Ensure compatibility to builds
+ of   OpenSSL with OPENSSL_NO_EC2M defined, but OPENSSL_NO_EC not   defined. *
+ test/openssl/test_pkey_ec.rb: Iterate over built-in curves   (and assert
+ their non-emptiness!) instead of hard-coding them, as   this may cause
+ problems with respect to the different availability   of individual curves in
+ individual OpenSSL builds.   [ruby-core:54881] [Bug #8384]
+
+  Thanks to Vit Ondruch for providing the patch!
+  Modified for 1.9.2-p180 by Prachetas Prabhu.
+
+
+git-svn-id: svn+ssh://ci.ruby-lang.org/ruby/trunk@41808 b2dd03c8-39d4-4d8f-98ff-823fe69b080e
+---
+ ext/openssl/ossl_pkey_ec.c   |  4 ++++
+ test/openssl/test_ec.rb | 22 +++++++++++++---------
+ 2 files changed, 17 insertions(+), 9 deletions(-)
+
+diff --git a/ext/openssl/ossl_pkey_ec.c b/ext/openssl/ossl_pkey_ec.c
+index 9d7607e..5e419bd 100644
+--- a/ext/openssl/ossl_pkey_ec.c
++++ b/ext/openssl/ossl_pkey_ec.c
+@@ -762,8 +762,10 @@ static VALUE ossl_ec_group_initialize(int argc, VALUE *argv, VALUE self)
+                 method = EC_GFp_mont_method();
+             } else if (id == s_GFp_nist) {
+                 method = EC_GFp_nist_method();
++#if !defined(OPENSSL_NO_EC2M)
+             } else if (id == s_GF2m_simple) {
+                 method = EC_GF2m_simple_method();
++#endif
+             }
+ 
+             if (method) {
+@@ -814,8 +816,10 @@ static VALUE ossl_ec_group_initialize(int argc, VALUE *argv, VALUE self)
+ 
+             if (id == s_GFp) {
+                 new_curve = EC_GROUP_new_curve_GFp;
++#if !defined(OPENSSL_NO_EC2M)
+             } else if (id == s_GF2m) {
+                 new_curve = EC_GROUP_new_curve_GF2m;
++#endif
+             } else {
+                 ossl_raise(rb_eArgError, "unknown symbol, must be :GFp or :GF2m");
+             }
+diff --git a/test/openssl/test_ec.rb b/test/openssl/test_ec.rb
+index f151335..56f3ff7 100644
+--- a/test/openssl/test_ec.rb
++++ b/test/openssl/test_ec.rb
+@@ -12,24 +12,28 @@ def setup
+     @data1 = 'foo'
+     @data2 = 'bar' * 1000 # data too long for DSA sig
+ 
+-    @group1 = OpenSSL::PKey::EC::Group.new('secp112r1')
+-    @group2 = OpenSSL::PKey::EC::Group.new('sect163k1')
++    @groups = []
++    @keys = []
+ 
+-    @key1 = OpenSSL::PKey::EC.new
+-    @key1.group = @group1
+-    @key1.generate_key
++    OpenSSL::PKey::EC.builtin_curves.each do |curve, comment|
++      group = OpenSSL::PKey::EC::Group.new(curve)
+ 
+-    @key2 = OpenSSL::PKey::EC.new(@group2.curve_name)
+-    @key2.generate_key
++      key = OpenSSL::PKey::EC.new(group)
++      key.generate_key
+ 
+-    @groups = [@group1, @group2]
+-    @keys = [@key1, @key2]
++      @groups << group
++      @keys << key
++    end
+   end
+ 
+   def compare_keys(k1, k2)
+     assert_equal(k1.to_pem, k2.to_pem)
+   end
+ 
++  def test_builtin_curves
++    assert(!OpenSSL::PKey::EC.builtin_curves.empty?)
++  end
++
+   def test_curve_names
+     @groups.each_with_index do |group, idx|
+       key = @keys[idx]

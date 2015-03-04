@@ -54,6 +54,7 @@ define rbenv::build (
   $global      = false,
   $keep        = false,
   $env         = [],
+  $patch       = undef,
 ) {
   include rbenv
 
@@ -61,6 +62,34 @@ define rbenv::build (
   validate_bool($keep)
   validate_array($env)
   $environment_for_build = concat(["RBENV_ROOT=${install_dir}"], $env)
+
+  if $patch {
+    # Currently only accepts a single file that can be written to the local disk
+    if $patch =~ /^((puppet|file):\/\/\/.*)/ {
+      # Usually defaults to /var/lib/puppet
+      $patch_dir = "${::settings::vardir}/rbenv"
+      $patch_file = "${patch_dir}/${title}.patch"
+
+      File {
+        owner => 'root',
+        group => 'root',
+        mode  => '0644',
+      }
+
+      file { $patch_dir:
+        ensure  => directory,
+        recurse => true,
+        before  => File[$patch_file],
+      }->
+      file { $patch_file:
+        ensure => file,
+        source => $patch,
+      }
+    }
+    else {
+      fail('Patch source invalid. Must be puppet:/// or file:///')
+    }
+  }
 
   Exec {
     cwd     => $install_dir,
@@ -75,10 +104,11 @@ define rbenv::build (
     timeout => 1800,
   }
 
-  $install_options = $keep ? {
-    true    => ' --keep',
-    default => '',
-  }
+  $install_options = join([ $keep ? { true => ' --keep', default => '' },
+                            # patch is a string so we must invert the
+                            # logic to use the selector
+                            $patch ? { undef => '', false => '', default => ' --patch' } ], '')
+
 
   exec { "own-plugins-${title}":
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
@@ -94,7 +124,8 @@ define rbenv::build (
     require => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
-    command     => "rbenv install ${title}${install_options}",
+    # patch file must be read from stdin only if supplied
+    command     => sprintf("rbenv install ${title}${install_options}%s", $patch ? { undef => '', false => '', default => " < ${patch_file}" }),
     environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
@@ -106,10 +137,16 @@ define rbenv::build (
     refreshonly => true,
   }
 
-  # Install Bundler
+  # Install Bundler with no docs
+  # The 2.5.x version of rdoc (used in Ruby 1.8.x and 1.9.x) causes
+  # this error if docs are included during puppet run:
+  #   ERROR:  While executing gem ... (TypeError)
+  #     can't convert nil into String
+  # Updating rdoc before installing gems via rbenv::gem also fixes this issue
   rbenv::gem { "bundler-${title}":
     gem          => 'bundler',
     ruby_version => $title,
+    skip_docs    => true,
   }
 
   if $global == true {
