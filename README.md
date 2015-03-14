@@ -41,6 +41,14 @@ you can set the Ruby to be the global interpreter.
 
     rbenv::plugin { 'sstephenson/ruby-build': }
     rbenv::build { '2.0.0-p247': global => true }
+    
+Sometimes Ruby needs to be patched prior to being compiled. puppet-rbenv
+currently supports patching from a single file located either on the
+Puppet Master or the local filesystem. Therefore, the only accepted paths are those
+starting with puppet:/// or file:///.
+
+    rbenv::build { '2.0.0-p247': patch => 'puppet:///modules/rbenv/patch.patch' }
+    rbenv::build { '2.0.0-p247': patch => 'file:///path/to/patch.patch' }
 
 ## Plugins
 Plugins can be installed from GitHub using the following definiton:
