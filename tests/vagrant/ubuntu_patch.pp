@@ -9,5 +9,5 @@ file { '/usr/lib/libjemalloc.so':
 }->
 rbenv::build { '1.9.2-p180':
   global => true,
-  patch => 'file:///tmp/puppet-modules/rbenv/tests/patches/1.9.2-p180_ubuntu.patch',
+  patch  => 'file:///tmp/puppet-modules/rbenv/tests/patches/1.9.2-p180_ubuntu.patch',
 }
