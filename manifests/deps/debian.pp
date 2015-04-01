@@ -35,7 +35,7 @@ class rbenv::deps::debian {
     package { 'libgdbm3': ensure => installed }
   }
 
-  if ! defined(Package['libgdbm3-dev']) {
-    package { 'libgdbm3-dev': ensure => installed }
+  if ! defined(Package['libgdbm-dev']) {
+    package { 'libgdbm-dev': ensure => installed }
   }
 }
