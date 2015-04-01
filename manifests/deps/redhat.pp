@@ -34,4 +34,16 @@ class rbenv::deps::redhat {
   if ! defined(Package['libffi-devel']) {
     package { 'libffi-devel': ensure => installed }
   }
+
+  if ! defined(Package['libyaml-devel']) {
+    package { 'libyaml-devel': ensure => installed }
+  }
+
+  if ! defined(Package['ncurses-devel']) {
+    package { 'ncurses-devel': ensure => installed }
+  }
+
+  if ! defined(Package['gdbm-devel']) {
+    package { 'gdbm-devel': ensure => installed }
+  }
 }

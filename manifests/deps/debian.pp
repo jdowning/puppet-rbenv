@@ -22,4 +22,20 @@ class rbenv::deps::debian {
   if ! defined(Package['libffi-dev']) {
     package { 'libffi-dev': ensure => installed }
   }
+
+  if ! defined(Package['libyaml-dev']) {
+    package { 'libyaml-dev': ensure => installed }
+  }
+
+  if ! defined(Package['libncurses5-dev']) {
+    package { 'libncurses5-dev': ensure => installed }
+  }
+
+  if ! defined(Package['libgdbm3']) {
+    package { 'libgdbm3': ensure => installed }
+  }
+
+  if ! defined(Package['libgdbm3-dev']) {
+    package { 'libgdbm3-dev': ensure => installed }
+  }
 }
