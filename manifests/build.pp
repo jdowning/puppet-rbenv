@@ -109,7 +109,6 @@ define rbenv::build (
                             # logic to use the selector
                             $patch ? { undef => '', false => '', default => ' --patch' } ], '')
 
-
   exec { "own-plugins-${title}":
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user    => 'root',
