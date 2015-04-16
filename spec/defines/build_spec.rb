@@ -6,11 +6,12 @@ describe 'rbenv::build' do
     let(:facts) { { :osfamily => 'Debian', :vardir => '/var/lib/puppet' } }
     let(:params) do
       {
-        :install_dir => '/usr/local/rbenv',
-        :owner       => 'root',
-        :group       => 'adm',
-        :global      => false,
-        :env         => ['RUBY_CFLAGS=-O3 -march=native'],
+        :install_dir      => '/usr/local/rbenv',
+        :owner            => 'root',
+        :group            => 'adm',
+        :global           => false,
+        :env              => ['RUBY_CFLAGS=-O3 -march=native'],
+        :bundler_version  => '>1.9',
       }
     end
 
@@ -21,7 +22,7 @@ describe 'rbenv::build' do
     it { should contain_exec("rbenv-install-2.0.0-p247") }
     it { should contain_exec("rbenv-ownit-2.0.0-p247") }
     # Included to ensure bundler docs are skipped to avoid outdated rdoc error
-    it { should contain_rbenv__gem("bundler-2.0.0-p247").with({ 'skip_docs' => true }) }
+    it { should contain_rbenv__gem("bundler-2.0.0-p247").with({ 'skip_docs' => true, 'version' => '>1.9' }) }
 
     context 'with global => true' do
       let(:params) do

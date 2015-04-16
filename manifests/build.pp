@@ -48,13 +48,14 @@
 # Justin Downing <justin@downing.us>
 #
 define rbenv::build (
-  $install_dir = $rbenv::install_dir,
-  $owner       = $rbenv::owner,
-  $group       = $rbenv::group,
-  $global      = false,
-  $keep        = false,
-  $env         = [],
-  $patch       = undef,
+  $install_dir      = $rbenv::install_dir,
+  $owner            = $rbenv::owner,
+  $group            = $rbenv::group,
+  $global           = false,
+  $keep             = false,
+  $env              = [],
+  $patch            = undef,
+  $bundler_version  = '>=0',
 ) {
   include rbenv
 
@@ -146,6 +147,7 @@ define rbenv::build (
     gem          => 'bundler',
     ruby_version => $title,
     skip_docs    => true,
+    version      => $bundler_version,
   }
 
   if $global == true {
