@@ -58,9 +58,10 @@ define rbenv::gem(
     fail('You must declare a ruby_version for rbenv::gem')
   }
 
-  $docs = $skip_docs ? {
-    /false/ => '',
-    /true/  => '--no-ri --no-rdoc'
+  if ($skip_docs) {
+    $docs = '--no-ri --no-rdoc'
+  } else {
+    $docs = ''
   }
 
   exec { "gem-install-${gem}-${ruby_version}":
