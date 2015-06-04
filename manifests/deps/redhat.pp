@@ -4,46 +4,46 @@
 #
 class rbenv::deps::redhat {
   if ! defined(Package['binutils']) {
-    package { 'binutils': ensure => installed }
+    package { 'binutils': ensure => present }
   }
 
   if ! defined(Package['gcc']) {
-    package { 'gcc': ensure => installed }
+    package { 'gcc': ensure => present }
   }
 
   if ! defined(Package['gcc-c++']) {
-    package { 'gcc-c++': ensure => installed }
+    package { 'gcc-c++': ensure => present }
   }
 
   if ! defined(Package['make']) {
-    package { 'make': ensure => installed }
+    package { 'make': ensure => present }
   }
 
   if ! defined(Package['openssl-devel']) {
-    package { 'openssl-devel': ensure => installed }
+    package { 'openssl-devel': ensure => present }
   }
 
   if ! defined(Package['readline-devel']) {
-    package { 'readline-devel': ensure => installed }
+    package { 'readline-devel': ensure => present }
   }
 
   if ! defined(Package['zlib-devel']) {
-    package { 'zlib-devel': ensure => installed }
+    package { 'zlib-devel': ensure => present }
   }
 
   if ! defined(Package['libffi-devel']) {
-    package { 'libffi-devel': ensure => installed }
+    package { 'libffi-devel': ensure => present }
   }
 
   if ! defined(Package['libyaml-devel']) {
-    package { 'libyaml-devel': ensure => installed }
+    package { 'libyaml-devel': ensure => present }
   }
 
   if ! defined(Package['ncurses-devel']) {
-    package { 'ncurses-devel': ensure => installed }
+    package { 'ncurses-devel': ensure => present }
   }
 
   if ! defined(Package['gdbm-devel']) {
-    package { 'gdbm-devel': ensure => installed }
+    package { 'gdbm-devel': ensure => present }
   }
 }
