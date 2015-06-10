@@ -3,47 +3,18 @@
 # This module manages rbenv dependencies for redhat $::osfamily.
 #
 class rbenv::deps::redhat {
-  if ! defined(Package['binutils']) {
-    package { 'binutils': ensure => installed }
-  }
 
-  if ! defined(Package['gcc']) {
-    package { 'gcc': ensure => installed }
-  }
-
-  if ! defined(Package['gcc-c++']) {
-    package { 'gcc-c++': ensure => installed }
-  }
-
-  if ! defined(Package['make']) {
-    package { 'make': ensure => installed }
-  }
-
-  if ! defined(Package['openssl-devel']) {
-    package { 'openssl-devel': ensure => installed }
-  }
-
-  if ! defined(Package['readline-devel']) {
-    package { 'readline-devel': ensure => installed }
-  }
-
-  if ! defined(Package['zlib-devel']) {
-    package { 'zlib-devel': ensure => installed }
-  }
-
-  if ! defined(Package['libffi-devel']) {
-    package { 'libffi-devel': ensure => installed }
-  }
-
-  if ! defined(Package['libyaml-devel']) {
-    package { 'libyaml-devel': ensure => installed }
-  }
-
-  if ! defined(Package['ncurses-devel']) {
-    package { 'ncurses-devel': ensure => installed }
-  }
-
-  if ! defined(Package['gdbm-devel']) {
-    package { 'gdbm-devel': ensure => installed }
-  }
+  ensure_packages([
+    'binutils',
+    'gcc',
+    'gcc-c++',
+    'make',
+    'openssl-devel',
+    'readline-devel',
+    'zlib-devel',
+    'libffi-devel',
+    'libyaml-devel',
+    'ncurses-devel',
+    'gdbm-devel'
+    ])
 }
