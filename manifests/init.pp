@@ -28,8 +28,12 @@
 # [$latest]
 #   This defines whether the rbenv $install_dir is kept up-to-date.
 #   Defaults: false
-#   This vaiable is optional.
+#   This variable is optional.
 #
+# [$manage_git]
+#   This defines wehter the git module will actually install the git package
+#   Defaults: true
+#   This variable is optional
 # === Requires
 #
 # This module requires the following modules:
@@ -61,8 +65,13 @@ class rbenv (
   $owner       = 'root',
   $group       = $rbenv::deps::group,
   $latest      = false,
+  $manage_git  = true,
 ) inherits rbenv::deps {
   include rbenv::deps
+
+  class { ::git :
+    package_manage => $manage_git
+  }
 
   exec { 'git-clone-rbenv':
     command => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
