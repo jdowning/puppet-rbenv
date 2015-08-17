@@ -12,5 +12,7 @@ class rbenv::deps::debian {
     'libyaml-dev',
     'libncurses5-dev',
     'libgdbm3',
-    'libgdbm-dev' ])
+    'libgdbm-dev',
+    'patch',
+    ])
 }
