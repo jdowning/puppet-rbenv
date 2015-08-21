@@ -14,6 +14,7 @@ class rbenv::deps::suse {
     'libffi-devel',
     'libyaml-devel',
     'ncurses-devel',
-    'gdbm-devel'
+    'gdbm-devel',
+    'patch',
   ])
 }
