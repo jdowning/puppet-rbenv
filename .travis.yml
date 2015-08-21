@@ -7,7 +7,7 @@ rvm:
   - 2.0.0
 sudo: false
 bundler_args: --without development
-script: bundle exec rake spec SPEC_OPTS='--format documentation'
+script: bundle exec rake spec SPEC_OPTS='--format documentation' PARSER='future'
 env:
   - PUPPET_VERSION="3.2.4"
   - PUPPET_VERSION="3.3.2"
