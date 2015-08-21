@@ -13,6 +13,6 @@ class rbenv::deps::debian {
     'libncurses5-dev',
     'libgdbm3',
     'libgdbm-dev',
-    'patch',
+    'patch'
     ])
 }

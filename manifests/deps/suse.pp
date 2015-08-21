@@ -15,6 +15,6 @@ class rbenv::deps::suse {
     'libyaml-devel',
     'ncurses-devel',
     'gdbm-devel',
-    'patch',
+    'patch'
   ])
 }
