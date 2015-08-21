@@ -8,6 +8,7 @@ class rbenv::deps::redhat {
     'binutils',
     'gcc',
     'gcc-c++',
+    'git',
     'make',
     'openssl-devel',
     'readline-devel',

@@ -7,6 +7,7 @@ class rbenv::deps::suse {
   ensure_packages([
     'binutils',
     'gcc',
+    'git',
     'automake',
     'openssl-devel',
     'readline-devel',

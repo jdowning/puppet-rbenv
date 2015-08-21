@@ -11,7 +11,6 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv::deps {
-  include ::git
   include ::stdlib
 
   case $::osfamily {
