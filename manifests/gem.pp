@@ -51,6 +51,7 @@ define rbenv::gem(
   $ruby_version = undef,
   $skip_docs    = false,
   $timeout      = 300,
+  $env          = $rbenv::env,
 ) {
   include rbenv
 
@@ -74,7 +75,8 @@ define rbenv::gem(
       '/bin',
       '/sbin'
     ],
-    timeout => $timeout
+    environment => $env,
+    timeout     => $timeout
   }~>
   exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",

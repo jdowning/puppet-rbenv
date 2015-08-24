@@ -53,7 +53,7 @@ define rbenv::build (
   $group            = $rbenv::group,
   $global           = false,
   $keep             = false,
-  $env              = [],
+  $env              = $rbenv::env,
   $patch            = undef,
   $bundler_version  = '>=0',
 ) {
@@ -61,7 +61,7 @@ define rbenv::build (
 
   validate_bool($global)
   validate_bool($keep)
-  validate_array($env)
+
   $environment_for_build = concat(["RBENV_ROOT=${install_dir}"], $env)
 
   if $patch {
@@ -111,17 +111,19 @@ define rbenv::build (
                             $patch ? { undef => '', false => '', default => ' --patch' } ], '')
 
   exec { "own-plugins-${title}":
-    command => "chown -R ${owner}:${group} ${install_dir}/plugins",
-    user    => 'root',
-    unless  => "test -d ${install_dir}/versions/${title}",
-    require => Class['rbenv'],
+    command     => "chown -R ${owner}:${group} ${install_dir}/plugins",
+    user        => 'root',
+    environment => $environment_for_build,
+    unless      => "test -d ${install_dir}/versions/${title}",
+    require     => Class['rbenv'],
   }->
   exec { "git-pull-rubybuild-${title}":
-    command => 'git reset --hard HEAD && git pull',
-    cwd     => "${install_dir}/plugins/ruby-build",
-    user    => 'root',
-    unless  => "test -d ${install_dir}/versions/${title}",
-    require => Rbenv::Plugin['sstephenson/ruby-build'],
+    command     => 'git reset --hard HEAD && git pull',
+    cwd         => "${install_dir}/plugins/ruby-build",
+    user        => 'root',
+    environment => $environment_for_build,
+    unless      => "test -d ${install_dir}/versions/${title}",
+    require     => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
     # patch file must be read from stdin only if supplied

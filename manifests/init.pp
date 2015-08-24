@@ -61,15 +61,20 @@ class rbenv (
   $owner       = 'root',
   $group       = $rbenv::deps::group,
   $latest      = false,
+  $env         = [],
 ) inherits rbenv::deps {
+
+  validate_array($env)
+
   include rbenv::deps
 
   exec { 'git-clone-rbenv':
-    command => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
-    creates => $install_dir,
-    cwd     => '/',
-    user    => $owner,
-    require => Package['git'],
+    command     => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
+    creates     => $install_dir,
+    cwd         => '/',
+    user        => $owner,
+    environment => $env,
+    require     => Package['git'],
   }
 
   file { [
@@ -93,10 +98,11 @@ class rbenv (
   # run `git pull` on each run if we want to keep rbenv updated
   if $rbenv::latest == true {
     exec { 'update-rbenv':
-      command => '/usr/bin/git pull',
-      cwd     => $install_dir,
-      user    => $owner,
-      require => File[$install_dir],
+      command     => '/usr/bin/git pull',
+      cwd         => $install_dir,
+      user        => $owner,
+      environment => $env,
+      require     => File[$install_dir],
     }
   }
 
