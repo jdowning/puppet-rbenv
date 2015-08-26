@@ -30,6 +30,11 @@
 #   Defaults: false
 #   This variable is optional.
 #
+# [$env]
+#   This is used to set environment variables when compiling ruby.
+#   Default: []
+#   This variable is optional.
+#
 # === Requires
 #
 # This module requires the following modules:

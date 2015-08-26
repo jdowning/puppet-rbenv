@@ -93,8 +93,10 @@ define rbenv::build (
   }
 
   Exec {
-    cwd     => $install_dir,
-    path    => [
+    cwd         => $install_dir,
+    timeout     => 1800,
+    environment => $environment_for_build,
+    path        => [
       '/bin/',
       '/sbin/',
       '/usr/bin/',
@@ -102,7 +104,6 @@ define rbenv::build (
       "${install_dir}/bin/",
       "${install_dir}/shims/"
     ],
-    timeout => 1800,
   }
 
   $install_options = join([ $keep ? { true => ' --keep', default => '' },
@@ -113,7 +114,6 @@ define rbenv::build (
   exec { "own-plugins-${title}":
     command     => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user        => 'root',
-    environment => $environment_for_build,
     unless      => "test -d ${install_dir}/versions/${title}",
     require     => Class['rbenv'],
   }->
@@ -121,14 +121,12 @@ define rbenv::build (
     command     => 'git reset --hard HEAD && git pull',
     cwd         => "${install_dir}/plugins/ruby-build",
     user        => 'root',
-    environment => $environment_for_build,
     unless      => "test -d ${install_dir}/versions/${title}",
     require     => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
     # patch file must be read from stdin only if supplied
     command     => sprintf("rbenv install ${title}${install_options}%s", $patch ? { undef => '', false => '', default => " < ${patch_file}" }),
-    environment => $environment_for_build,
     creates     => "${install_dir}/versions/${title}",
   }~>
   exec { "rbenv-ownit-${title}":

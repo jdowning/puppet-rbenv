@@ -36,6 +36,11 @@
 #   Default: 300
 #   This variable is optional.
 #
+# [$env]
+#   This is used to set environment variables when installing a gem.
+#   Default: []
+#   This variable is optional.
+#
 # === Examples
 #
 # rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
@@ -65,6 +70,8 @@ define rbenv::gem(
     $docs = ''
   }
 
+  $environment_for_install = concat(["RBENV_ROOT=${install_dir}"], $env)
+
   exec { "gem-install-${gem}-${ruby_version}":
     command => "gem install ${gem} --version '${version}' ${docs}",
     unless  => "gem list ${gem} --installed --version '${version}'",
@@ -75,13 +82,11 @@ define rbenv::gem(
       '/bin',
       '/sbin'
     ],
-    environment => $env,
-    timeout     => $timeout
+    timeout => $timeout
   }~>
   exec { "rbenv-rehash-${gem}-${ruby_version}":
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
-    environment => [ "RBENV_ROOT=${install_dir}" ],
   }~>
   exec { "rbenv-permissions-${gem}-${ruby_version}":
     command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} \
@@ -91,5 +96,8 @@ define rbenv::gem(
     refreshonly => true,
   }
 
-  Exec { require => Exec["rbenv-install-${ruby_version}"] }
+  Exec {
+    environment => $environment_for_install,
+    require => Exec["rbenv-install-${ruby_version}"]
+  }
 }

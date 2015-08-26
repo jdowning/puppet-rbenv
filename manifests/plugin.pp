@@ -13,6 +13,11 @@
 #   Defaults: false
 #   This vaiable is optional.
 #
+# [$env]
+#   This is used to set environment variables when installing plugins.
+#   Default: []
+#   This variable is optional.
+#
 # === Requires
 #
 # You will need to install the git package on the host system.
@@ -34,10 +39,11 @@ define rbenv::plugin(
 
   $plugin = split($name, '/') # divide plugin name into array
 
+  Exec { environment => $env }
+
   exec { "install-${name}":
     command     => "/usr/bin/git clone https://github.com/${name}.git",
     cwd         => "${install_dir}/plugins",
-    environment => $env,
     onlyif      => "/usr/bin/test -d ${install_dir}/plugins",
     unless      => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
   }~>
@@ -54,7 +60,6 @@ define rbenv::plugin(
       command     => '/usr/bin/git pull',
       cwd         => "${install_dir}/plugins/${plugin[1]}",
       user        => $rbenv::owner,
-      environment => $env,
       onlyif      => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
     }
   }
