@@ -42,10 +42,10 @@ define rbenv::plugin(
   Exec { environment => $env }
 
   exec { "install-${name}":
-    command     => "/usr/bin/git clone https://github.com/${name}.git",
-    cwd         => "${install_dir}/plugins",
-    onlyif      => "/usr/bin/test -d ${install_dir}/plugins",
-    unless      => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
+    command => "/usr/bin/git clone https://github.com/${name}.git",
+    cwd     => "${install_dir}/plugins",
+    onlyif  => "/usr/bin/test -d ${install_dir}/plugins",
+    unless  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
   }~>
   exec { "rbenv-permissions-${name}":
     command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} \
@@ -57,10 +57,10 @@ define rbenv::plugin(
   # run `git pull` on each run if we want to keep the plugin updated
   if $latest == true {
     exec { "update-${name}":
-      command     => '/usr/bin/git pull',
-      cwd         => "${install_dir}/plugins/${plugin[1]}",
-      user        => $rbenv::owner,
-      onlyif      => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
+      command => '/usr/bin/git pull',
+      cwd     => "${install_dir}/plugins/${plugin[1]}",
+      user    => $rbenv::owner,
+      onlyif  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
     }
   }
 }

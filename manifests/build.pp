@@ -112,22 +112,22 @@ define rbenv::build (
                             $patch ? { undef => '', false => '', default => ' --patch' } ], '')
 
   exec { "own-plugins-${title}":
-    command     => "chown -R ${owner}:${group} ${install_dir}/plugins",
-    user        => 'root',
-    unless      => "test -d ${install_dir}/versions/${title}",
-    require     => Class['rbenv'],
+    command => "chown -R ${owner}:${group} ${install_dir}/plugins",
+    user    => 'root',
+    unless  => "test -d ${install_dir}/versions/${title}",
+    require => Class['rbenv'],
   }->
   exec { "git-pull-rubybuild-${title}":
-    command     => 'git reset --hard HEAD && git pull',
-    cwd         => "${install_dir}/plugins/ruby-build",
-    user        => 'root',
-    unless      => "test -d ${install_dir}/versions/${title}",
-    require     => Rbenv::Plugin['sstephenson/ruby-build'],
+    command => 'git reset --hard HEAD && git pull',
+    cwd     => "${install_dir}/plugins/ruby-build",
+    user    => 'root',
+    unless  => "test -d ${install_dir}/versions/${title}",
+    require => Rbenv::Plugin['sstephenson/ruby-build'],
   }->
   exec { "rbenv-install-${title}":
     # patch file must be read from stdin only if supplied
-    command     => sprintf("rbenv install ${title}${install_options}%s", $patch ? { undef => '', false => '', default => " < ${patch_file}" }),
-    creates     => "${install_dir}/versions/${title}",
+    command => sprintf("rbenv install ${title}${install_options}%s", $patch ? { undef => '', false => '', default => " < ${patch_file}" }),
+    creates => "${install_dir}/versions/${title}",
   }~>
   exec { "rbenv-ownit-${title}":
     command     => "chown -R ${owner}:${group} \
