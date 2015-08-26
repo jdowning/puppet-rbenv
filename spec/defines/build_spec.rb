@@ -46,6 +46,10 @@ describe 'rbenv::build' do
       let(:params) do
         {
           :install_dir => '/usr/local/rbenv',
+          :owner            => 'root',
+          :group            => 'adm',
+          :global           => false,
+          :env              => ['RUBY_CFLAGS=-O3 -march=native'],
           :patch => 'file:///path/to/patch.patch',
         }
       end
@@ -57,6 +61,10 @@ describe 'rbenv::build' do
       let(:params) do
         {
           :install_dir => '/usr/local/rbenv',
+          :owner            => 'root',
+          :group            => 'adm',
+          :global           => false,
+          :env              => ['RUBY_CFLAGS=-O3 -march=native'],
           :patch => 'puppet:///modules/rbenv/patch.patch',
         }
       end
@@ -68,6 +76,10 @@ describe 'rbenv::build' do
       let(:params) do
         {
           :install_dir => '/usr/local/rbenv',
+          :owner            => 'root',
+          :group            => 'adm',
+          :global           => false,
+          :env              => ['RUBY_CFLAGS=-O3 -march=native'],
           :patch => 'http://example.com/patch.patch',
         }
       end
