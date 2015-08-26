@@ -8,7 +8,7 @@ describe 'rbenv::gem' do
       {
         :install_dir  => '/usr/local/rbenv',
         :version      => '1.3.5',
-        :ruby_version => '2.0.0-p247'
+        :ruby_version => '2.0.0-p247',
         :env          => ['RUBY_CFLAGS=-O3 -march=native'],
       }
     end
