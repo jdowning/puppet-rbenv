@@ -28,12 +28,11 @@
 # [$latest]
 #   This defines whether the rbenv $install_dir is kept up-to-date.
 #   Defaults: false
-#   This vaiable is optional.
+#   This variable is optional.
 #
 # === Requires
 #
 # This module requires the following modules:
-#   'puppetlabs/git' >= 0.0.3
 #   'puppetlabs/stdlib' >= 4.1.0
 #
 # === Examples
