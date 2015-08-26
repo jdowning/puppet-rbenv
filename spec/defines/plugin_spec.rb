@@ -8,6 +8,7 @@ describe 'rbenv::plugin' do
       {
         :install_dir => '/usr/local/rbenv',
         :latest      => true,
+        :env         => ['RUBY_CFLAGS=-O3 -march=native'],
       }
     end
 
