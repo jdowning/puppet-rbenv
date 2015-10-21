@@ -63,14 +63,17 @@ class rbenv (
   $repo_path   = 'https://github.com/sstephenson/rbenv.git',
   $install_dir = '/usr/local/rbenv',
   $owner       = 'root',
-  $group       = $rbenv::deps::group,
+  $group       = $rbenv::params::group,
   $latest      = false,
   $env         = [],
-) inherits rbenv::deps {
+  $manage_deps = true,
+) inherits rbenv::params {
 
   validate_array($env)
 
-  include rbenv::deps
+  if $manage_deps {
+    include rbenv::deps
+  }
 
   exec { 'git-clone-rbenv':
     command     => "/usr/bin/git clone ${rbenv::repo_path} ${install_dir}",
