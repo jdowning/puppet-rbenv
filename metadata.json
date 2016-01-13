@@ -1,6 +1,6 @@
 {
   "name": "jdowning-rbenv",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "source": "https://github.com/justindowning/puppet-rbenv",
   "author": "Justin Downing",
   "license": "Apache-2.0",
