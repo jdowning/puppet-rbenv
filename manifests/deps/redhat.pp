@@ -6,6 +6,7 @@ class rbenv::deps::redhat {
 
   ensure_packages([
     'binutils',
+    'bzip2',
     'gcc',
     'gcc-c++',
     'git',
