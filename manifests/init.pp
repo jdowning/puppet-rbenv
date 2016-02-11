@@ -30,6 +30,11 @@
 #   Defaults: false
 #   This variable is optional.
 #
+# [$version]
+#   This checks out the specified version of rbenv to $install_dir.
+#   Defaults: undef
+#   This variable is optional and has no affect if latest is true.
+#
 # [$env]
 #   This is used to set environment variables when compiling ruby.
 #   Default: []
@@ -65,6 +70,7 @@ class rbenv (
   $owner       = 'root',
   $group       = $rbenv::params::group,
   $latest      = false,
+  $version     = undef,
   $env         = [],
   $manage_deps = true,
 ) inherits rbenv::params {
@@ -103,13 +109,38 @@ class rbenv (
   }
 
   # run `git pull` on each run if we want to keep rbenv updated
-  if $rbenv::latest == true {
+  if $latest == true {
+    exec { 'checkout-rbenv':
+      command     => '/usr/bin/git checkout master',
+      cwd         => $install_dir,
+      user        => $owner,
+      environment => $env,
+      onlyif      => '/usr/bin/test $(git rev-parse --abbrev-ref HEAD) != "master"',
+      require     => File[$install_dir],
+    } ->
     exec { 'update-rbenv':
       command     => '/usr/bin/git pull',
       cwd         => $install_dir,
       user        => $owner,
       environment => $env,
+      unless      => '/usr/bin/git fetch --quiet; /usr/bin/test $(git rev-parse HEAD) == $(git rev-parse @{u})',
       require     => File[$install_dir],
+    }
+  } elsif $version {
+    exec { 'fetch-rbenv':
+      command     => '/usr/bin/git fetch',
+      cwd         => $install_dir,
+      user        => $owner,
+      environment => $env,
+      unless      => "/usr/bin/test $(/usr/bin/git describe --tags) == '${version}'",
+      require     => File[$install_dir],
+    } ~>
+    exec { 'update-rbenv':
+      command     => "/usr/bin/git checkout ${version}",
+      cwd         => $install_dir,
+      user        => $owner,
+      environment => $env,
+      refreshonly => true,
     }
   }
 
