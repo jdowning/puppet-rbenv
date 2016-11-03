@@ -132,7 +132,7 @@ class rbenv (
       cwd         => $install_dir,
       user        => $owner,
       environment => $env,
-      unless      => "/usr/bin/test $(/usr/bin/git describe --tags) == '${version}'",
+      unless      => "/usr/bin/test $(/usr/bin/git describe --tags) = '${version}'",
       require     => File[$install_dir],
     } ~>
     exec { 'update-rbenv':
