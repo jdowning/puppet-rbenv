@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'rbenv::plugin' do
   describe 'install ruby-build' do
-    let(:title) { 'sstephenson/ruby-build' }
+    let(:title) { 'rbenv/ruby-build' }
     let(:facts) { { :osfamily => 'Debian' } }
     let(:params) do
       {
@@ -13,8 +13,8 @@ describe 'rbenv::plugin' do
     end
 
     it { should contain_class('rbenv') }
-    it { should contain_exec("install-sstephenson/ruby-build") }
-    it { should contain_exec("rbenv-permissions-sstephenson/ruby-build") }
-    it { should contain_exec("update-sstephenson/ruby-build") }
+    it { should contain_exec("install-rbenv/ruby-build") }
+    it { should contain_exec("rbenv-permissions-rbenv/ruby-build") }
+    it { should contain_exec("update-rbenv/ruby-build") }
   end
 end

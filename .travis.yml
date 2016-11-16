@@ -1,11 +1,8 @@
 ---
-branches:
-  only:
-    - master
+sudo: false
 language: ruby
 rvm:
   - 2.0.0
-sudo: false
 bundler_args: --without development
 script: bundle exec rake spec SPEC_OPTS='--format documentation' PARSER='future'
 env:
@@ -14,9 +11,10 @@ env:
   - PUPPET_VERSION="3.4.3"
   - PUPPET_VERSION="3.5.1"
   - PUPPET_VERSION="3.6.2"
-  - PUPPET_VERSION="3.7.4"
+  - PUPPET_VERSION="3.7.5"
+  - PUPPET_VERSION="3.8.7"
   - PUPPET_VERSION="4.1.0"
-  - PUPPET_VERSION="4.2.1"
+  - PUPPET_VERSION="4.2.3"
 notifications:
   email:
     - justin@downing.us

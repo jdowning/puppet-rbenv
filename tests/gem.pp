@@ -1,6 +1,6 @@
 package { ['git', 'build-essential']: ensure => 'installed' }->
 class { 'rbenv': }->
-rbenv::plugin { 'sstephenson/ruby-build': }->
+rbenv::plugin { 'rbenv/ruby-build': }->
 rbenv::build { '2.0.0-p247': global => true }->
 rbenv::gem { 'thor':
   version      => '0.18.1',

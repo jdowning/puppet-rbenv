@@ -1,7 +1,7 @@
 class { 'rbenv': group => $group }
 
-rbenv::plugin { 'sstephenson/ruby-build': }
-rbenv::plugin { 'sstephenson/rbenv-vars': }
+rbenv::plugin { 'rbenv/ruby-build': }
+rbenv::plugin { 'rbenv/rbenv-vars': }
 rbenv::build { '2.1.7': global => true }
 
 rbenv::gem { 'rack':

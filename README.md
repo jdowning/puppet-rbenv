@@ -35,11 +35,11 @@ as well.
 ### Installing Ruby using ruby-build
 Ruby requires additional packages to operate properly. Fortunately, this module
 will ensure these dependencies are met before installing Ruby. To install Ruby
-you will need the [ruby-build](https://github.com/sstephenson/ruby-build) plugin
-from @sstephenson. Once installed, you can install most any Ruby. Additionally,
-you can set the Ruby to be the global interpreter.
+you will need the [ruby-build](https://github.com/rbenv/ruby-build) plugin. Once
+installed, you can install most any Ruby. Additionally, you can set the Ruby to
+be the global interpreter.
 
-    rbenv::plugin { 'sstephenson/ruby-build': }
+    rbenv::plugin { 'rbenv/ruby-build': }
     rbenv::build { '2.0.0-p247': global => true }
     
 Sometimes Ruby needs to be patched prior to being compiled. puppet-rbenv
@@ -58,7 +58,7 @@ Plugins can be installed from GitHub using the following definiton:
 You can ensure a plugin is kept up-to-date. This is helpful for a plugin like
 `ruby-build` so that definitions are always available:
 
-    rbenv::plugin { 'sstephenson/ruby-build': latest => true }
+    rbenv::plugin { 'rbenv/ruby-build': latest => true }
 
 ## Gems
 Gems can be installed too! You *must* specify the `ruby_version` you want to
@@ -70,7 +70,7 @@ install for.
 site.pp
 
     class { 'rbenv': }
-    rbenv::plugin { [ 'sstephenson/rbenv-vars', 'sstephenson/ruby-build' ]: }
+    rbenv::plugin { [ 'rbenv/rbenv-vars', 'rbenv/ruby-build' ]: }
     rbenv::build { '2.0.0-p247': global => true }
     rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
 
