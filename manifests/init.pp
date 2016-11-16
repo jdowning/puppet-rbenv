@@ -87,7 +87,6 @@ class rbenv (
     cwd         => '/',
     user        => $owner,
     environment => $env,
-    require     => Package['git'],
   }
 
   file { [
