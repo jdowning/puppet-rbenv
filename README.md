@@ -75,10 +75,14 @@ site.pp
     rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
 
 ## Testing
-You can test this module with rspec:
+You can run specs in  this module with rspec:
 
     bundle install
     bundle exec rake spec
+
+Or with Docker:
+
+    docker build -t puppet-rbenv .
 
 ## Vagrant
 
