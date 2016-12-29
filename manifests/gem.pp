@@ -71,8 +71,9 @@ define rbenv::gem(
   }
 
   $environment_for_install = concat(["RBENV_ROOT=${install_dir}"], $env)
+  $version_for_exec_name = regsubst($version, '[^0-9]+', '_', 'EG')
 
-  exec { "gem-install-${gem}-${ruby_version}":
+  exec { "ruby-${ruby_version}-gem-install-${gem}-${version_for_exec_name}":
     command => "gem install ${gem} --version '${version}' ${docs}",
     unless  => "gem list ${gem} --installed --version '${version}'",
     path    => [
@@ -84,11 +85,11 @@ define rbenv::gem(
     ],
     timeout => $timeout
   }~>
-  exec { "rbenv-rehash-${gem}-${ruby_version}":
+  exec { "rbenv-rehash-${gem}-${ruby_version}-${version_for_exec_name}":
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }~>
-  exec { "rbenv-permissions-${gem}-${ruby_version}":
+  exec { "rbenv-permissions-${gem}-${ruby_version}-${version_for_exec_name}":
     command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} \
                   ${install_dir}/versions/${ruby_version}/lib/ruby/gems && \
                   /bin/chmod -R g+w \
