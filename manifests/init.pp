@@ -40,6 +40,11 @@
 #   Default: []
 #   This variable is optional.
 #
+# [$manage_deps]
+#   Toggles the option to let module manage dependencies or not.
+#   Default: true
+#   This variable is optional.
+#
 # === Requires
 #
 # This module requires the following modules:

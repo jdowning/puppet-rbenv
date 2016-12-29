@@ -29,7 +29,7 @@
 #   Default: false
 #   This variable is optional.
 #
-# [%keep]
+# [$keep]
 #   This is used to keep the source code of a compiled ruby.
 #   Default: false
 #   This variable is optional.
@@ -37,6 +37,17 @@
 # [$env]
 #   This is used to set environment variables when compiling ruby.
 #   Default: []
+#   This variable is optional.
+#
+# [$patch]
+#   A single file that can be written to the local disk to be used
+#   to patch the ruby installation.
+#   Default: undef
+#   This variable is optional.
+#
+# [$bundler_version]
+#   This is used to set a specific version of bundler.
+#   Default: '>=0'
 #   This variable is optional.
 #
 # === Examples
