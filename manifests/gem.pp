@@ -85,11 +85,11 @@ define rbenv::gem(
     ],
     timeout => $timeout
   }~>
-  exec { "rbenv-rehash-${gem}-${ruby_version}-${version_for_exec_name}":
+  exec { "ruby-${ruby_version}-rbenv-rehash-${gem}-${version_for_exec_name}":
     command     => "${install_dir}/bin/rbenv rehash",
     refreshonly => true,
   }~>
-  exec { "rbenv-permissions-${gem}-${ruby_version}-${version_for_exec_name}":
+  exec { "ruby-${ruby_version}-rbenv-permissions-${gem}-${version_for_exec_name}":
     command     => "/bin/chown -R ${rbenv::owner}:${rbenv::group} \
                   ${install_dir}/versions/${ruby_version}/lib/ruby/gems && \
                   /bin/chmod -R g+w \

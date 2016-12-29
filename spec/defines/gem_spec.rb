@@ -15,7 +15,7 @@ describe 'rbenv::gem' do
 
     it { should contain_class('rbenv') }
     it { should contain_exec("ruby-2.0.0-p247-gem-install-bundler-1_3_5") }
-    it { should contain_exec("rbenv-rehash-bundler-2.0.0-p247-1_3_5") }
-    it { should contain_exec("rbenv-permissions-bundler-2.0.0-p247-1_3_5") }
+    it { should contain_exec("ruby-2.0.0-p247-rbenv-rehash-bundler-1_3_5") }
+    it { should contain_exec("ruby-2.0.0-p247-rbenv-permissions-bundler-1_3_5") }
   end
 end
