@@ -4,6 +4,8 @@
 #
 class rbenv::deps::debian {
   ensure_packages([
+    'autoconf',
+    'bison',
     'build-essential',
     'git',
     'libreadline6-dev',
@@ -14,6 +16,7 @@ class rbenv::deps::debian {
     'libncurses5-dev',
     'libgdbm3',
     'libgdbm-dev',
-    'patch'
+    'patch',
+    'subversion'
     ])
 }
