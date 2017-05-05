@@ -6,9 +6,11 @@ class rbenv::deps::suse {
 
   ensure_packages([
     'binutils',
+    'bsion',
     'gcc',
     'git',
     'automake',
+    'autoconf',
     'openssl-devel',
     'readline-devel',
     'zlib-devel',
@@ -16,6 +18,7 @@ class rbenv::deps::suse {
     'libyaml-devel',
     'ncurses-devel',
     'gdbm-devel',
-    'patch'
+    'patch',
+    'subversion'
   ])
 }

@@ -5,7 +5,9 @@
 class rbenv::deps::redhat {
 
   ensure_packages([
+    'autoconf',
     'binutils',
+    'byacc',
     'bzip2',
     'gcc',
     'gcc-c++',
@@ -18,6 +20,7 @@ class rbenv::deps::redhat {
     'libyaml-devel',
     'ncurses-devel',
     'gdbm-devel',
-    'patch'
+    'patch',
+    'subversion'
     ])
 }
