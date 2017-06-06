@@ -41,6 +41,10 @@
 #   Default: []
 #   This variable is optional.
 #
+# [$source]
+#   Source to be passed ot the gem command
+#   Default: "https://rubygems.org/"
+#   This variable is optional.
 # === Examples
 #
 # rbenv::gem { 'thor': ruby_version => '2.0.0-p247' }
@@ -57,6 +61,7 @@ define rbenv::gem(
   $skip_docs    = false,
   $timeout      = 300,
   $env          = $rbenv::env,
+  $source       = "https://rubygems.org/"
 ) {
   include rbenv
 
@@ -74,7 +79,7 @@ define rbenv::gem(
   $version_for_exec_name = regsubst($version, '[^0-9]+', '_', 'EG')
 
   exec { "ruby-${ruby_version}-gem-install-${gem}-${version_for_exec_name}":
-    command => "gem install ${gem} --version '${version}' ${docs}",
+    command => "gem install ${gem} --version '${version}' ${docs} --source '${source}'",
     unless  => "gem list ${gem} --installed --version '${version}'",
     path    => [
       "${install_dir}/versions/${ruby_version}/bin/",
