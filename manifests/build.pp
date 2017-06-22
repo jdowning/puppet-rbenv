@@ -108,12 +108,12 @@ define rbenv::build (
     timeout     => 1800,
     environment => $environment_for_build,
     path        => [
+      "${install_dir}/bin/",
+      "${install_dir}/shims/",
       '/bin/',
       '/sbin/',
       '/usr/bin/',
-      '/usr/sbin/',
-      "${install_dir}/bin/",
-      "${install_dir}/shims/"
+      '/usr/sbin/'
     ],
   }
 
