@@ -55,10 +55,15 @@ Plugins can be installed from GitHub using the following definiton:
 
     rbenv::plugin { 'github_user/github_repo': }
 
-You can ensure a plugin is kept up-to-date. This is helpful for a plugin like
-`ruby-build` so that definitions are always available:
+You can ensure a plugin is kept up-to-date during puppet runs. This is 
+helpful for a plugin like `ruby-build` so that definitions are always 
+available:
 
     rbenv::plugin { 'rbenv/ruby-build': latest => true }
+
+This can also be achieved via cron.  
+
+    rbenv::plugin { 'rbenv/ruby-build': latestcron => true }
 
 ## Gems
 Gems can be installed too! You *must* specify the `ruby_version` you want to
