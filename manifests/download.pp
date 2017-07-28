@@ -40,6 +40,11 @@
 #   Default: []
 #   This variable is optional.
 #
+# [$bundler_version]
+#   This is used to set a specific version of bundler.
+#   Default: '>=0'
+#   This variable is optional.
+#
 # === Examples
 #
 # profile::rbenv::download { '2.0.0-p247': global => true }
@@ -49,7 +54,8 @@ define rbenv::download (
   $owner  = $rbenv::owner,
   $group  = $rbenv::group,
   $global = false,
-  $env    = []
+  $env    = [],
+  $bundler_version = '>=0',
 ){
   include rbenv
 
@@ -93,6 +99,19 @@ define rbenv::download (
                     chmod -R g+w ${install_dir}/versions/${title}",
     user        => 'root',
     refreshonly => true,
+  }
+
+  # Install Bundler with no docs
+  # The 2.5.x version of rdoc (used in Ruby 1.8.x and 1.9.x) causes
+  # this error if docs are included during puppet run:
+  #   ERROR:  While executing gem ... (TypeError)
+  #     can't convert nil into String
+  # Updating rdoc before installing gems via rbenv::gem also fixes this issue
+  rbenv::gem { "bundler-${title}":
+    gem          => 'bundler',
+    ruby_version => $title,
+    skip_docs    => true,
+    version      => $bundler_version,
   }
 
   if $global {
