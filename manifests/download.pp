@@ -88,7 +88,7 @@ define rbenv::download (
     unless  => "test -d ${install_dir}/versions/${title}",
     require => Rbenv::Plugin['garnieretienne/rvm-download'],
   }->
-  exec { "rbenv-download-${title}":
+  exec { "rbenv-install-${title}":
     command     => "rbenv download ${title}",
     environment => $environment_for_download,
     creates     => "${install_dir}/versions/${title}",
