@@ -6,7 +6,7 @@ class rbenv::deps::debian {
   ensure_packages([
     'build-essential',
     'git',
-    'libreadline6-dev',
+    'libreadline-dev',
     'libssl-dev',
     'zlib1g-dev',
     'libffi-dev',
