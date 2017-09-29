@@ -129,8 +129,8 @@ class rbenv (
       environment => $env,
       onlyif      => '/usr/bin/test $(git rev-parse --abbrev-ref HEAD) != "master"',
       require     => File[$install_dir],
-    } ->
-    exec { 'update-rbenv':
+    }
+    -> exec { 'update-rbenv':
       command     => '/usr/bin/git pull',
       cwd         => $install_dir,
       user        => $owner,
@@ -145,8 +145,8 @@ class rbenv (
       user        => $owner,
       environment => $env,
       require     => File[$install_dir],
-    } ~>
-    exec { 'update-rbenv':
+    }
+    ~> exec { 'update-rbenv':
       command     => "/usr/bin/git checkout ${version}",
       cwd         => $install_dir,
       user        => $owner,
