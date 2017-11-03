@@ -61,6 +61,7 @@ define rbenv::plugin(
       cwd     => "${install_dir}/plugins/${plugin[1]}",
       user    => $rbenv::owner,
       onlyif  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
+      unless  => '/usr/bin/git fetch --quiet; /usr/bin/test $(git rev-parse HEAD) == $(git rev-parse @{u})',
     }
   }
 }
