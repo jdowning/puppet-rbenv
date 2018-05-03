@@ -5,7 +5,7 @@
 class rbenv::deps::debian {
   $packages = $::lsbdistcodename ? {
     'bionic'           => [ 'libgdbm5', 'libssl1.0-dev' ],
-    default            => 'libgdbm3',
+    default            => [ 'libgdbm3', 'libssl-dev']
   }
   ensure_packages([
     'build-essential',
