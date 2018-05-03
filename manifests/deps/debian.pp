@@ -3,21 +3,20 @@
 # This module manages rbenv dependencies for Debian $::osfamily.
 #
 class rbenv::deps::debian {
-  $libgdbm = $::lsbdistcodename ? {
-    'bionic'           => 'libgdbm5',
+  $packages = $::lsbdistcodename ? {
+    'bionic'           => [ 'libgdbm5', 'libssl1.0-dev' ],
     default            => 'libgdbm3',
   }
   ensure_packages([
     'build-essential',
     'git',
     'libreadline-dev',
-    'libssl-dev',
     'zlib1g-dev',
     'libffi-dev',
     'libyaml-dev',
     'libncurses5-dev',
-    $libgdbm,
     'libgdbm-dev',
+    $packages,
     'patch'
     ])
 }
