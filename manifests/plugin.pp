@@ -8,6 +8,11 @@
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
+# [$repo_path]
+#   This is the git repo used to install the plugin.
+#   Default: https://github.com/${name}.git
+#   This variable is required.
+#
 # [$latest]
 #   This defines whether the plugin is kept up-to-date.
 #   Defaults: false
@@ -32,6 +37,7 @@
 #
 define rbenv::plugin(
   $install_dir = $rbenv::install_dir,
+  $repo_path   = "https://github.com/${name}.git",
   $latest      = false,
   $env         = $rbenv::env,
 ) {
@@ -42,7 +48,7 @@ define rbenv::plugin(
   Exec { environment => $env }
 
   exec { "install-${name}":
-    command => "/usr/bin/git clone https://github.com/${name}.git",
+    command => "/usr/bin/git clone ${repo_path}",
     cwd     => "${install_dir}/plugins",
     onlyif  => "/usr/bin/test -d ${install_dir}/plugins",
     unless  => "/usr/bin/test -d ${install_dir}/plugins/${plugin[1]}",
