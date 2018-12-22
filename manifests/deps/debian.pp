@@ -3,6 +3,11 @@
 # This module manages rbenv dependencies for Debian $::osfamily.
 #
 class rbenv::deps::debian {
+  $libgdbm_package_name = $::os['distro']['codename'] ? {
+    'bionic' => 'libgdbm5',
+    default  => 'libgdbm3',
+  }
+
   ensure_packages([
     'build-essential',
     'git',
@@ -12,7 +17,7 @@ class rbenv::deps::debian {
     'libffi-dev',
     'libyaml-dev',
     'libncurses5-dev',
-    'libgdbm3',
+    $libgdbm_package_name,
     'libgdbm-dev',
     'patch'
     ])
