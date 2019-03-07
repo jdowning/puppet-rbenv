@@ -30,7 +30,7 @@
 #   Skips the installation of ri and rdoc docs.
 #   Default: false
 #   This variable is optional.
-
+#
 # [$timeout]
 #   Seconds that a gem has to finish installing. Set to 0 for unlimited.
 #   Default: 300
@@ -69,8 +69,17 @@ define rbenv::gem(
     fail('You must declare a ruby_version for rbenv::gem')
   }
 
+  $ruby_version_parts = split($ruby_version, '\.')
+
+  $ruby_version_major = scanf($ruby_version_parts[0], '%i')
+  $ruby_version_minor = scanf($ruby_version_parts[1], '%i')
+
   if ($skip_docs) {
-    $docs = '--no-ri --no-rdoc'
+    if $ruby_version_major[0] > 2 or ($ruby_version_major[0] == 2 and $ruby_version_minor[0] >= 6) {
+      $docs = '--no-document'
+    } else {
+      $docs = '--no-ri --no-rdoc'
+    }
   } else {
     $docs = ''
   }
