@@ -69,13 +69,32 @@ define rbenv::gem(
     fail('You must declare a ruby_version for rbenv::gem')
   }
 
-  $ruby_version_parts = split($ruby_version, '\.')
+  # Extract Ruby Version into Semver major and minor components
+  # NOTE: This only makes asssumptions about non-prefixed versions. So jruby,
+  # rbx, mruby, etc won't make any decisions based off of semvers determined
+  # from ruby version names.
 
-  $ruby_version_major = scanf($ruby_version_parts[0], '%i')
-  $ruby_version_minor = scanf($ruby_version_parts[1], '%i')
+  if ($ruby_version =~ /^(\d+)\.(\d+)\.(\d+)/) {
+    $ruby_version_array_major = scanf($1, '%i')
+    $ruby_version_array_minor = scanf($2, '%i')
+    $ruby_version_array_patch = scanf($3, '%i')
+    $ruby_version_major = $ruby_version_array_major[0]
+    $ruby_version_minor = $ruby_version_array_minor[0]
+    $ruby_version_patch = $ruby_version_array_patch[0]
+  } else {
+    $ruby_version_major = false
+    $ruby_version_minor = false
+    $ruby_version_patch = false
+  }
+
+  # Use new --no-document argument for 2.6 and greater ruby versions
+  $use_new_doc_argument = ($ruby_version_major and $ruby_version_minor) and (
+    $ruby_version_major > 2 or
+    ($ruby_version_major == 2 and $ruby_version_minor >= 6)
+  )
 
   if ($skip_docs) {
-    if $ruby_version_major[0] > 2 or ($ruby_version_major[0] == 2 and $ruby_version_minor[0] >= 6) {
+    if $use_new_doc_argument {
       $docs = '--no-document'
     } else {
       $docs = '--no-ri --no-rdoc'
