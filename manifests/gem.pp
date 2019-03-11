@@ -69,45 +69,22 @@ define rbenv::gem(
     fail('You must declare a ruby_version for rbenv::gem')
   }
 
-  # Extract Ruby Version into Semver major and minor components
-  # NOTE: This only makes asssumptions about non-prefixed versions. So jruby,
-  # rbx, mruby, etc won't make any decisions based off of semvers determined
-  # from ruby version names.
-
-  if ($ruby_version =~ /^(\d+)\.(\d+)\.(\d+)/) {
-    $ruby_version_array_major = scanf($1, '%i')
-    $ruby_version_array_minor = scanf($2, '%i')
-    $ruby_version_array_patch = scanf($3, '%i')
-    $ruby_version_major = $ruby_version_array_major[0]
-    $ruby_version_minor = $ruby_version_array_minor[0]
-    $ruby_version_patch = $ruby_version_array_patch[0]
-  } else {
-    $ruby_version_major = false
-    $ruby_version_minor = false
-    $ruby_version_patch = false
-  }
-
-  # Use new --no-document argument for 2.6 and greater ruby versions
-  $use_new_doc_argument = ($ruby_version_major and $ruby_version_minor) and (
-    $ruby_version_major > 2 or
-    ($ruby_version_major == 2 and $ruby_version_minor >= 6)
-  )
-
-  if ($skip_docs) {
-    if $use_new_doc_argument {
-      $docs = '--no-document'
-    } else {
-      $docs = '--no-ri --no-rdoc'
-    }
-  } else {
-    $docs = ''
-  }
-
   $environment_for_install = concat(["RBENV_ROOT=${install_dir}"], $env)
   $version_for_exec_name = regsubst($version, '[^0-9]+', '_', 'EG')
 
+  # Using shell if and substitution, build a test if rubygems is version 3 or
+  # greater.
+  $gem_ver3_test_command_prefix = 'IFS=. read -a gem_version_components <<< "$(gem --version)"; if [ "${gem_version_components[0]}" -ge 3 ]; then'
+  $base_gem_install_command = "gem install ${gem} --version '${version}' --source '${source}'"
+
+  if ($skip_docs) {
+    $gem_install_command = "/bin/true ; ${gem_ver3_test_command_prefix} ${base_gem_install_command} --no-document; else ${base_gem_install_command} --no-ri --no-rdoc; fi"
+  } else {
+    $gem_install_command = $base_gem_install_command
+  }
+
   exec { "ruby-${ruby_version}-gem-install-${gem}-${version_for_exec_name}":
-    command => "gem install ${gem} --version '${version}' ${docs} --source '${source}'",
+    command => $gem_install_command,
     unless  => "gem list ${gem} --installed --version '${version}'",
     path    => [
       "${install_dir}/versions/${ruby_version}/bin/",
