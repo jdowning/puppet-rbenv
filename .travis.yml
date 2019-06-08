@@ -4,11 +4,32 @@ language: ruby
 rvm:
   - 2.5.3
 bundler_args: --without development
-script: bundle exec rake spec SPEC_OPTS='--format documentation' PARSER='future'
-env:
-  - PUPPET_VERSION="4.10.12"
-  - PUPPET_VERSION="5.5.14"
-  - PUPPET_VERSION="6.4.0"
+script:
+  - 'bundle exec rake $CHECK'
+stages:
+  - static
+  - spec
+matrix:
+  fast_finish: true
+  include:
+    -
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file syntax lint metadata_lint"
+      stage: static
+    -
+      env: PUPPET_VERSION="4.10.12" CHECK="spec" SPEC_OPTS="--format documentation"
+      rvm: 2.1.9
+      stage: spec
+    -
+      env: PUPPET_VERSION="5.5.14" CHECK="spec" SPEC_OPTS="--format documentation"
+      rvm: 2.4.5
+      stage: spec
+    -
+      env: PUPPET_VERSION="6.4.0" CHECK="spec" SPEC_OPTS="--format documentation"
+      rvm: 2.5.3
+      stage: spec
+branches:
+  only:
+    - master
+    - /^v\d/
 notifications:
   email: false
-
