@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/tmp/puppet-modules/rbenv", type: "rsync", rsync__exclude: [".git/","spec/"]
 
   config.vm.provision :puppet do |puppet|
-    puppet.environment_path = "tests"
+    puppet.environment_path = "examples"
     puppet.environment = "vagrant"
     puppet.options        = ["--modulepath", "/tmp/puppet-modules"]
   end
