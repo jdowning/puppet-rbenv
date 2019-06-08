@@ -4,6 +4,7 @@ describe 'rbenv::build' do
   describe 'install 2.0.0-p247' do
     let(:title) { '2.0.0-p247' }
     let(:facts) { { :osfamily => 'Debian', :vardir => '/var/lib/puppet' } }
+    let(:pre_condition) { 'rbenv::plugin { "rbenv/ruby-build": install_dir => "/usr/local/rbenv", env => ["RUBY_CFLAGS=-O3 -march=native"] }' }
     let(:params) do
       {
         :install_dir      => '/usr/local/rbenv',
