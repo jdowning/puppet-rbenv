@@ -1,6 +1,6 @@
 {
   "name": "jdowning-rbenv",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "author": "Justin Downing",
   "summary": "Setup rbenv ruby manager for systemwide use",
   "license": "Apache-2.0",
