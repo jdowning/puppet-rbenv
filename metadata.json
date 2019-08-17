@@ -1,14 +1,14 @@
 {
   "name": "jdowning-rbenv",
-  "version": "2.4.0",
-  "source": "https://github.com/justindowning/puppet-rbenv",
+  "version": "2.5.0",
+  "source": "https://github.com/jdowning/puppet-rbenv",
   "author": "Justin Downing",
   "license": "Apache-2.0",
   "summary": "Setup rbenv ruby manager for systemwide use",
   "description": "Setup rbenv ruby manager for systemwide use",
-  "project_page": "https://github.com/justindowning/puppet-rbenv",
-  "source": "https://github.com/justindowning/puppet-rbenv.git",
-  "issues_url": "https://github.com/justindowning/puppet-rbenv/issues",
+  "project_page": "https://github.com/jdowning/puppet-rbenv",
+  "source": "https://github.com/jdowning/puppet-rbenv.git",
+  "issues_url": "https://github.com/jdowning/puppet-rbenv/issues",
   "dependencies": [
     { "name": "puppetlabs/stdlib", "version_requirement": ">=4.1.0 <7.0.0" }
   ],
