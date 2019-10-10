@@ -70,7 +70,7 @@ define rbenv::gem(
   }
 
   if ($skip_docs) {
-    $docs = '--no-ri --no-rdoc'
+    $docs = '--no-document'
   } else {
     $docs = ''
   }
