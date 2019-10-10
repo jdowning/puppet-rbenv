@@ -1,6 +1,6 @@
 # puppet-rbenv
 
-[![Build Status](https://travis-ci.org/justindowning/puppet-rbenv.png)](https://travis-ci.org/justindowning/puppet-rbenv) [![Puppet Forge](http://img.shields.io/puppetforge/v/jdowning/rbenv.svg?style=flat)](https://forge.puppetlabs.com/jdowning/rbenv)
+[![Build Status](https://travis-ci.org/jdowning/puppet-rbenv.png)](https://travis-ci.org/jdowning/puppet-rbenv) [![Puppet Forge](http://img.shields.io/puppetforge/v/jdowning/rbenv.svg?style=flat)](https://forge.puppetlabs.com/jdowning/rbenv)
 
 ## Description
 This Puppet module will install and manage [rbenv](http://rbenv.org). By default, it installs
