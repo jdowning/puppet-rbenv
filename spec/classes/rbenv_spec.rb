@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'rbenv', :type => 'class' do
+describe 'rbenv', type: 'class' do
   let(:facts) { { osfamily: 'Debian', lsbdistcodename: 'xenial' } }
   let(:params) do
     {
