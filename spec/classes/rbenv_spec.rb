@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'rbenv', type: 'class' do
-  let(:facts) { { osfamily: 'Debian' } }
+  let(:facts) { { osfamily: 'Debian', lsbdistcodename: 'xenial' } }
   let(:params) do
     {
       install_dir: '/usr/local/rbenv',

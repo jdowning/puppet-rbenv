@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'rbenv::gem' do
   describe 'install bundler' do
     let(:title) { 'bundler' }
-    let(:facts) { { osfamily: 'Debian' } }
+    let(:facts) { { osfamily: 'Debian', lsbdistcodename: 'xenial' } }
     let(:params) do
       {
         install_dir: '/usr/local/rbenv',

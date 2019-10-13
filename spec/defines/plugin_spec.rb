@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'rbenv::plugin' do
   describe 'install ruby-build' do
     let(:title) { 'rbenv/ruby-build' }
-    let(:facts) { { osfamily: 'Debian' } }
+    let(:facts) { { osfamily: 'Debian', lsbdistcodename: 'xenial' } }
     let(:params) do
       {
         install_dir: '/usr/local/rbenv',
