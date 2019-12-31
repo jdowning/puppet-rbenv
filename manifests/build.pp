@@ -62,16 +62,14 @@ define rbenv::build (
   $install_dir      = $rbenv::install_dir,
   $owner            = $rbenv::owner,
   $group            = $rbenv::group,
-  $global           = false,
-  $keep             = false,
+  Boolean $global   = false,
+  Boolean $keep     = false,
   $env              = $rbenv::env,
   $patch            = undef,
   $bundler_version  = '>=0',
 ) {
-  include rbenv
 
-  validate_bool($global)
-  validate_bool($keep)
+  include rbenv
 
   $environment_for_build = concat(["RBENV_ROOT=${install_dir}"], $env)
 
