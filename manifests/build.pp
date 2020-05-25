@@ -45,6 +45,11 @@
 #   Default: undef
 #   This variable is optional.
 #
+# [$rubygems_version]
+#  This is used to set a specific version of rubygems.
+#  Default: undef
+#  This variable is optional.
+#
 # [$bundler_version]
 #   This is used to set a specific version of bundler.
 #   Default: '>=0'
@@ -66,6 +71,7 @@ define rbenv::build (
   Boolean $keep     = false,
   $env              = $rbenv::env,
   $patch            = undef,
+  $rubygems_version = undef,
   $bundler_version  = '>=0',
 ) {
 
@@ -144,6 +150,19 @@ define rbenv::build (
                     chmod -R g+w ${install_dir}/versions/${title}",
     user        => 'root',
     refreshonly => true,
+  }
+
+  # In case the rubygems version is set, it should be called before installing bundler. Otherwise you could run into
+  # a series of issues like
+  # https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html.
+  if $rubygems_version {
+    exec { "rubygems-$rubygems_version":
+      command     => "gem update --system $rubygems_version",
+      environment => ["RBENV_ROOT=${install_dir}"],
+      require     => Exec["rbenv-install-${title}"],
+      subscribe   => Exec["rbenv-ownit-${title}"],
+      refreshonly => true,
+    }
   }
 
   # Install Bundler with no docs
