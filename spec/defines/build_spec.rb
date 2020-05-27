@@ -25,6 +25,21 @@ describe 'rbenv::build' do
     # Included to ensure bundler docs are skipped to avoid outdated rdoc error
     it { is_expected.to contain_rbenv__gem('bundler-2.0.0-p247').with('skip_docs' => true, 'version' => '>1.9') }
 
+    context 'with rubygems version => 3.2.1' do
+      let(:params) do
+        {
+          install_dir: '/usr/local/rbenv',
+          owner: 'root',
+          group: 'adm',
+          global: false,
+          rubygems_version: '3.2.1',
+          env: ['RUBY_CFLAGS=-O3 -march=native'],
+        }
+      end
+
+      it { is_expected.to contain_exec('rubygems-3.2.1') }
+    end
+
     context 'with global => true' do
       let(:params) do
         {
