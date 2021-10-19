@@ -2,12 +2,9 @@
 #
 # This module manages rbenv dependencies for Debian $::osfamily.
 #
-class rbenv::deps::debian {
-  $packages = $::lsbdistcodename ? {
-    'buster'           => [ 'libgdbm6', 'libssl-dev' ],
-    'bionic'           => [ 'libgdbm5', 'libssl1.0-dev' ],
-    default            => [ 'libgdbm3', 'libssl-dev']
-  }
+class rbenv::deps::debian (
+  Array $packages = [ 'libgdbm3', 'libssl-dev' ]
+){
   $default_packages = [
     'build-essential',
     'git',
