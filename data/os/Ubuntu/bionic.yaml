@@ -1,0 +1,4 @@
+---
+rbenv::deps::debian::packages:
+    - 'libgdbm5'
+    - 'libssl1.0-dev'
