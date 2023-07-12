@@ -11,7 +11,7 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv::params {
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       $group = 'adm'
     }

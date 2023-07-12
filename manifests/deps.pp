@@ -11,7 +11,7 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv::deps {
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
       include rbenv::deps::debian
     }

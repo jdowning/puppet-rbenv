@@ -85,7 +85,6 @@ class rbenv (
   $manage_deps    = true,
   $manage_profile = true,
 ) inherits rbenv::params {
-
   # TODO: validate array input for $env
 
   if $manage_deps {
