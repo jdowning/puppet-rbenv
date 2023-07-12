@@ -6,51 +6,51 @@
 #
 # === Variables
 #
-# [$install_dir]
+# @param install_dir
 #   This is set when you declare the rbenv class. There is no
 #   need to overrite it when calling the rbenv::build define.
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
-# [$owner]
+# @param owner
 #   This is set when you declare the rbenv class. There is no
 #   need to overrite it when calling the rbenv::build define.
 #   Default: $rbenv::owner
 #   This variable is required.
 #
-# [$group]
+# @param group
 #   This is set when you declare the rbenv class. There is no
 #   need to overrite it when calling the rbenv::build define.
 #   Default: $rbenv::group
 #   This variable is required.
 #
-# [$global]
+# @param global
 #   This is used to set the ruby to be the global interpreter.
 #   Default: false
 #   This variable is optional.
 #
-# [$keep]
+# @param keep
 #   This is used to keep the source code of a compiled ruby.
 #   Default: false
 #   This variable is optional.
 #
-# [$env]
+# @param env
 #   This is used to set environment variables when compiling ruby.
 #   Default: []
 #   This variable is optional.
 #
-# [$patch]
+# @param patch
 #   A single file that can be written to the local disk to be used
 #   to patch the ruby installation.
 #   Default: undef
 #   This variable is optional.
 #
-# [$rubygems_version]
+# @param rubygems_version
 #  This is used to set a specific version of rubygems.
 #  Default: undef
 #  This variable is optional.
 #
-# [$bundler_version]
+# @param bundler_version
 #   This is used to set a specific version of bundler.
 #   Default: '>=0'
 #   This variable is optional.
@@ -64,17 +64,16 @@
 # Justin Downing <justin@downing.us>
 #
 define rbenv::build (
-  $install_dir      = $rbenv::install_dir,
-  $owner            = $rbenv::owner,
-  $group            = $rbenv::group,
-  Boolean $global   = false,
-  Boolean $keep     = false,
-  $env              = $rbenv::env,
-  $patch            = undef,
-  $rubygems_version = undef,
-  $bundler_version  = '>=0',
+  Stdlib::Absolutepath $install_dir  = $rbenv::install_dir,
+  String $owner                      = $rbenv::owner,
+  String $group                      = $rbenv::group,
+  Boolean $global                    = false,
+  Boolean $keep                      = false,
+  Optional[Array] $env               = $rbenv::env,
+  Optional[String] $patch            = undef,
+  Optional[String] $rubygems_version = undef,
+  String $bundler_version            = '>=0',
 ) {
-
   include rbenv
 
   $environment_for_build = concat(["RBENV_ROOT=${install_dir}"], $env)
@@ -83,7 +82,7 @@ define rbenv::build (
     # Currently only accepts a single file that can be written to the local disk
     if $patch =~ /^((puppet|file):\/\/\/.*)/ {
       # Usually defaults to /var/lib/puppet
-      $patch_dir = "${::settings::vardir}/rbenv"
+      $patch_dir = "${settings::vardir}/rbenv"
       $patch_file = "${patch_dir}/${title}.patch"
 
       File {
@@ -117,14 +116,14 @@ define rbenv::build (
       '/bin/',
       '/sbin/',
       '/usr/bin/',
-      '/usr/sbin/'
+      '/usr/sbin/',
     ],
   }
 
-  $install_options = join([ $keep ? { true => ' --keep', default => '' },
+  $install_options = join([$keep ? { true => ' --keep', default => '' },
                             # patch is a string so we must invert the
                             # logic to use the selector
-                            $patch ? { undef => '', false => '', default => ' --patch' } ], '')
+                            $patch ? { undef => '', false => '', default => ' --patch' }], '')
 
   exec { "own-plugins-${title}":
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
@@ -156,8 +155,8 @@ define rbenv::build (
   # a series of issues like
   # https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html.
   if $rubygems_version {
-    exec { "rubygems-$rubygems_version":
-      command     => "gem update --system $rubygems_version",
+    exec { "rubygems-${rubygems_version}":
+      command     => "gem update --system ${rubygems_version}",
       environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
       subscribe   => Exec["rbenv-ownit-${title}"],
@@ -187,5 +186,4 @@ define rbenv::build (
       refreshonly => true,
     }
   }
-
 }

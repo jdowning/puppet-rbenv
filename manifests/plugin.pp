@@ -2,23 +2,23 @@
 #
 # === Variables
 #
-# [$install_dir]
+# @param install_dir
 #   This is set when you declare the rbenv class. There is no
 #   need to overrite it when calling the rbenv::gem define.
 #   Default: $rbenv::install_dir
 #   This variable is required.
 #
-# [$repo_path]
+# @param repo_path
 #   This is the git repo used to install the plugin.
 #   Default: https://github.com/${name}.git
 #   This variable is required.
 #
-# [$latest]
+# @param latest
 #   This defines whether the plugin is kept up-to-date.
 #   Defaults: false
 #   This vaiable is optional.
 #
-# [$env]
+# @param env
 #   This is used to set environment variables when installing plugins.
 #   Default: []
 #   This variable is optional.
@@ -35,11 +35,11 @@
 #
 # Justin Downing <justin@downing.us>
 #
-define rbenv::plugin(
-  $install_dir = $rbenv::install_dir,
-  $repo_path   = "https://github.com/${name}.git",
-  $latest      = false,
-  $env         = $rbenv::env,
+define rbenv::plugin (
+  Stdlib::Absolutepath $install_dir = $rbenv::install_dir,
+  Stdlib::HTTPUrl $repo_path        = "https://github.com/${name}.git",
+  Boolean $latest                   = false,
+  Array $env                        = $rbenv::env,
 ) {
   include rbenv
 
