@@ -3,7 +3,7 @@
 # This module manages rbenv dependencies for Debian os family.
 #
 class rbenv::deps::debian (
-  Array $packages = ['libgdbm3', 'libssl-dev']
+  Array $packages = ['libgdbm6', 'libssl-dev']
 ) {
   $default_packages = [
     'build-essential',
