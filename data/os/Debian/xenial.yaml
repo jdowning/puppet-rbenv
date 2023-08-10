@@ -1,4 +1,4 @@
 ---
 rbenv::deps::debian::packages:
-    - 'libgdbm6'
+    - 'libgdbm3'
     - 'libssl-dev'

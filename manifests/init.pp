@@ -5,47 +5,47 @@
 #
 # === Variables
 #
-# [$repo_path]
+# @param repo_path
 #   This is the git repo used to install rbenv.
 #   Default: 'https://github.com/rbenv/rbenv.git'
 #   This variable is required.
 #
-# [$install_dir]
+# @param install_dir
 #   This is where rbenv will be installed to.
 #   Default: '/usr/local/rbenv'
 #   This variable is required.
 #
-# [$owner]
+# @param owner
 #   This defines who owns the rbenv install directory.
 #   Default: 'root'
 #   This variable is required.
 #
-# [$group]
+# @param group
 #   This defines the group membership for rbenv.
 #   Default: 'adm'
 #   This variable is required.
 #
-# [$latest]
+# @param latest
 #   This defines whether the rbenv $install_dir is kept up-to-date.
 #   Defaults: false
 #   This variable is optional.
 #
-# [$version]
+# @param version
 #   This checks out the specified version of rbenv to $install_dir.
 #   Defaults: undef
 #   This variable is optional and has no affect if latest is true.
 #
-# [$env]
+# @param env
 #   This is used to set environment variables when compiling ruby.
 #   Default: []
 #   This variable is optional.
 #
-# [$manage_deps]
+# @param manage_deps
 #   Toggles the option to let module manage dependencies or not.
 #   Default: true
 #   This variable is optional.
 #
-# [$manage_profile]
+# @param manage_profile
 #   Toggles the option to let the module install rbenv.sh into /etc/profile.d.
 #   Default: true
 #   This variable is optional.
@@ -75,17 +75,16 @@
 # Copyright 2013 Justin Downing
 #
 class rbenv (
-  $repo_path      = 'https://github.com/rbenv/rbenv.git',
-  $install_dir    = '/usr/local/rbenv',
-  $owner          = 'root',
-  $group          = $rbenv::params::group,
-  $latest         = false,
-  $version        = undef,
-  $env            = [],
-  $manage_deps    = true,
-  $manage_profile = true,
+  Stdlib::HTTPUrl $repo_path        = 'https://github.com/rbenv/rbenv.git',
+  Stdlib::Absolutepath $install_dir = '/usr/local/rbenv',
+  String $owner                     = 'root',
+  String $group                     = $rbenv::params::group,
+  Boolean $latest                   = false,
+  Optional[string] $version         = undef,
+  Array $env                        = [],
+  Boolean $manage_deps              = true,
+  Boolean $manage_profile           = true,
 ) inherits rbenv::params {
-
   # TODO: validate array input for $env
 
   if $manage_deps {
@@ -101,22 +100,22 @@ class rbenv (
   }
 
   file { [
-    $install_dir,
-    "${install_dir}/plugins",
-    "${install_dir}/shims",
-    "${install_dir}/versions"
-  ]:
-    ensure => directory,
-    owner  => $owner,
-    group  => $group,
-    mode   => '0775',
+      $install_dir,
+      "${install_dir}/plugins",
+      "${install_dir}/shims",
+      "${install_dir}/versions",
+    ]:
+      ensure => directory,
+      owner  => $owner,
+      group  => $group,
+      mode   => '0775',
   }
 
   if $manage_profile {
     file { '/etc/profile.d/rbenv.sh':
       ensure  => file,
       content => template('rbenv/rbenv.sh'),
-      mode    => '0775'
+      mode    => '0775',
     }
   }
 
@@ -156,5 +155,4 @@ class rbenv (
   }
 
   Exec['git-clone-rbenv'] -> File[$install_dir]
-
 }
