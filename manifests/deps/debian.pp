@@ -2,6 +2,13 @@
 #
 # This module manages rbenv dependencies for Debian os family.
 #
+# === Variable
+#
+# @param packages
+#   This is used to specify additional packages to install.
+#   Default: ['libgdbm6', 'libssl-dev']
+#   This variable is optional.
+#
 class rbenv::deps::debian (
   Array $packages = ['libgdbm6', 'libssl-dev']
 ) {
