@@ -134,7 +134,7 @@ define rbenv::build (
   -> exec { "git-pull-rubybuild-${title}":
     command => 'git reset --hard HEAD && git pull',
     cwd     => "${install_dir}/plugins/ruby-build",
-    user    => 'root',
+    user    => $owner,
     unless  => "test -d ${install_dir}/versions/${title}",
     require => Rbenv::Plugin['rbenv/ruby-build'],
   }
