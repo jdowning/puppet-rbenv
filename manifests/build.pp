@@ -155,7 +155,7 @@ define rbenv::build (
   # a series of issues like
   # https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html.
   if $rubygems_version {
-    exec { "rubygems-${rubygems_version}":
+    exec { "rubygems-${rubygems_version}-for-${title}":
       command     => "gem update --system ${rubygems_version}",
       environment => ["RBENV_ROOT=${install_dir}"],
       require     => Exec["rbenv-install-${title}"],
