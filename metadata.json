@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "author": "Justin Downing",
   "summary": "Setup rbenv ruby manager for systemwide use",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "source": "https://github.com/jdowning/puppet-rbenv.git",
   "project_page": "https://github.com/jdowning/puppet-rbenv",
   "issues_url": "https://github.com/jdowning/puppet-rbenv/issues",
