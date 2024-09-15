@@ -1,4 +1,5 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
+ruby file: ".ruby-version"
 
 def location_for(place_or_version, fake_version = nil)
   git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
@@ -30,9 +31,9 @@ group :development do
   gem "pry", '~> 0.10',                            require: false
   gem "simplecov-console", '~> 0.5',               require: false
   gem "puppet-debugger", '~> 1.0',                 require: false
-  gem "rubocop", '= 1.6.1',                        require: false
-  gem "rubocop-performance", '= 1.9.1',            require: false
-  gem "rubocop-rspec", '= 2.0.1',                  require: false
+  gem "rubocop",                                   require: false
+  gem "rubocop-performance",                       require: false
+  gem "rubocop-rspec",                             require: false
   gem "rb-readline", '= 0.5.5',                    require: false, platforms: [:mswin, :mingw, :x64_mingw]
 end
 group :system_tests do
