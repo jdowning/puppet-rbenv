@@ -47,7 +47,7 @@ describe 'rbenv::build' do
         }
       end
 
-      it { is_expected.to contain_exec('rubygems-3.2.1') }
+      it { is_expected.to contain_exec('rubygems-3.2.1-for-2.0.0-p247') }
     end
 
     context 'with global => true' do
