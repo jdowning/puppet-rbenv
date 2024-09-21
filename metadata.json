@@ -1,6 +1,6 @@
 {
   "name": "jdowning-rbenv",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": "Justin Downing",
   "summary": "Setup rbenv ruby manager for systemwide use",
   "license": "MIT",
