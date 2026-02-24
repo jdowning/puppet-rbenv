@@ -136,7 +136,6 @@ define rbenv::build (
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => $owner,
     unless  => "test -d ${install_dir}/versions/${title}",
-    require => Rbenv::Plugin['rbenv/ruby-build'],
   }
   -> exec { "rbenv-install-${title}":
     # patch file must be read from stdin only if supplied
