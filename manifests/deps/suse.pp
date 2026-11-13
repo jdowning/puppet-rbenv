@@ -3,7 +3,7 @@
 # This module manages rbenv dependencies for suse $::osfamily.
 #
 class rbenv::deps::suse {
-  ensure_packages([
+  stdlib::ensure_packages([
       'automake',
       'binutils',
       'gcc',
