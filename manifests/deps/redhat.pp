@@ -3,7 +3,7 @@
 # This module manages rbenv dependencies for redhat $::osfamily.
 #
 class rbenv::deps::redhat {
-  ensure_packages([
+  stdlib::ensure_packages([
       'binutils',
       'bzip2',
       'gcc',
