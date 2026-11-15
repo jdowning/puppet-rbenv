@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:3.4.12
 MAINTAINER Justin Downing <justin@downing.us>
 
 WORKDIR /usr/src/app

@@ -53,7 +53,7 @@
 # === Requires
 #
 # This module requires the following modules:
-#   'puppetlabs/stdlib' >= 4.1.0
+#   'puppetlabs/stdlib' >= 10.0.0
 #
 # === Examples
 #
@@ -138,7 +138,7 @@ class rbenv (
       require     => File[$install_dir],
     }
   } elsif $version {
-    exec { 'fetch-rbenv':
+    exec { 'fetch-rbenv': # lint:ignore:exec_idempotency
       command     => '/usr/bin/git fetch',
       cwd         => $install_dir,
       user        => $owner,

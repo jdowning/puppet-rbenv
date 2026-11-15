@@ -23,5 +23,5 @@ class rbenv::deps::debian (
     'patch',
   ]
   $install_packages = flatten($default_packages, $packages)
-  ensure_packages($install_packages)
+  stdlib::ensure_packages($install_packages)
 }

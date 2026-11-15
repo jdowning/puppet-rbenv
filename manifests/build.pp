@@ -121,8 +121,8 @@ define rbenv::build (
   }
 
   $install_options = join([$keep ? { true => ' --keep', default => '' },
-      # patch is a string so we must invert the
-      # logic to use the selector
+    # patch is a string so we must invert the
+    # logic to use the selector
   $patch ? { undef => '', false => '', default => ' --patch' }], '')
 
   exec { "own-plugins-${title}":
