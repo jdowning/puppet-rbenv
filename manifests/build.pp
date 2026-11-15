@@ -125,6 +125,13 @@ define rbenv::build (
     # logic to use the selector
   $patch ? { undef => '', false => '', default => ' --patch' }], '')
 
+  # A require on a resource that is not in the catalog fails compilation, so only
+  # order after the ruby-build plugin when it has been declared.
+  $ruby_build_plugin = defined(Rbenv::Plugin['rbenv/ruby-build']) ? {
+    true    => Rbenv::Plugin['rbenv/ruby-build'],
+    default => undef,
+  }
+
   exec { "own-plugins-${title}":
     command => "chown -R ${owner}:${group} ${install_dir}/plugins",
     user    => 'root',
@@ -136,7 +143,7 @@ define rbenv::build (
     cwd     => "${install_dir}/plugins/ruby-build",
     user    => $owner,
     unless  => "test -d ${install_dir}/versions/${title}",
-    require => Rbenv::Plugin['rbenv/ruby-build'],
+    require => $ruby_build_plugin,
   }
   -> exec { "rbenv-install-${title}":
     # patch file must be read from stdin only if supplied
