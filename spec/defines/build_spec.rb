@@ -117,4 +117,44 @@ describe 'rbenv::build' do
       end
     end
   end
+
+  describe 'ruby-build plugin ordering' do
+    let(:title) { '2.0.0-p247' }
+    let(:facts) do
+      {
+        'os' => {
+          'family' => 'Debian',
+          'distro' => {
+            'codename' => 'xenial'
+          }
+        },
+        'vardir' => '/var/lib/puppet'
+      }
+    end
+    let(:params) do
+      {
+        install_dir: '/usr/local/rbenv',
+        owner: 'root',
+        group: 'adm',
+        global: false,
+        env: [],
+      }
+    end
+
+    context 'when rbenv::plugin ruby-build is declared' do
+      let(:pre_condition) { 'rbenv::plugin { "rbenv/ruby-build": install_dir => "/usr/local/rbenv", env => [] }' }
+
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_exec('git-pull-rubybuild-2.0.0-p247').that_requires('Rbenv::Plugin[rbenv/ruby-build]') }
+      it { is_expected.to contain_exec('git-pull-rubybuild-2.0.0-p247').that_requires('Exec[own-plugins-2.0.0-p247]') }
+      it { is_expected.to contain_exec('rbenv-install-2.0.0-p247').that_requires('Exec[git-pull-rubybuild-2.0.0-p247]') }
+    end
+
+    context 'when rbenv::plugin ruby-build is not declared' do
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_exec('git-pull-rubybuild-2.0.0-p247').that_requires('Exec[own-plugins-2.0.0-p247]') }
+      it { is_expected.to contain_exec('git-pull-rubybuild-2.0.0-p247').without_require }
+      it { is_expected.to contain_exec('rbenv-install-2.0.0-p247').that_requires('Exec[git-pull-rubybuild-2.0.0-p247]') }
+    end
+  end
 end
