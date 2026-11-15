@@ -27,6 +27,22 @@ You can also ensure rbenv is kept up-to-date:
       latest      => true
     }
 
+rbenv is cloned as `owner` (default `root`). If `owner` is not `root`, the parent
+directory of `install_dir` must already be writable by `owner`, or the initial
+`git clone` fails with `Permission denied`. The module does not create or change
+ownership of the parent directory, so manage it yourself and order rbenv after it:
+
+    file { '/data':
+      ensure => directory,
+      owner  => 'jekyll',
+    }
+
+    class { 'rbenv':
+      install_dir => '/data/rbenv',
+      owner       => 'jekyll',
+      require     => File['/data'],
+    }
+
 The class will merely setup rbenv on your host. If you wish to install
 rubies, plugins, or gems, you will have to add those declarations to your manifests
 as well.
